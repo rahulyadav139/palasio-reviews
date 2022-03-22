@@ -1,18 +1,21 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 
-import { LoginForm, SignupForm } from '../components';
+import { LoginForm, SignupForm, Header } from '../components';
 import LoginImg from '../assets/login.png';
 import styles from './AuthPage.module.css';
 
-const Auth = props => {
-  const [isLogin, setIsLogin] = useState(true);
+const AuthPage = props => {
+  const [isLogin, setIsLogin] = useState(false);
   return (
-    <main className={styles.main}>
-      <section>
-        <img className="img-responsive" src={LoginImg} alt="signup" />
-      </section>
-      <section>{isLogin ? <LoginForm /> : <SignupForm />}</section>
-    </main>
+    <Fragment>
+      <Header />
+      <main className={styles.main}>
+        <section>
+          <img className="img-responsive" src={LoginImg} alt="signup" />
+        </section>
+        <section>{isLogin ? <LoginForm /> : <SignupForm />}</section>
+      </main>
+    </Fragment>
   );
 };
-export { Auth };
+export { AuthPage };
