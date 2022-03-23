@@ -1,0 +1,33 @@
+.main-library-page {
+  padding: 1rem;
+  /* display: grid;
+  grid-template-columns: 2fr 8fr;
+  gap: 1rem; */
+}
+
+.video-cards-wrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+}
+.categories {
+  margin-bottom: 1rem;
+}
+.categories ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+.category {
+  padding: 0.5rem;
+  border: 1px solid var(--black-color);
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.category:active {
+  transform: scale(0.99);
+  background: var(--black-color);
+  color: var(--white-color);
+}
