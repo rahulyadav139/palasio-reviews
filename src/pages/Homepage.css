@@ -10,3 +10,15 @@
 .image-homepage img {
   width: 100%;
 }
+
+.main-homepage h1 {
+  color: var(--primary-color-dark);
+  margin-top: 0.5rem;
+}
+
+.video-cards-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}

@@ -1,4 +1,4 @@
-import styles from './AuthForm.module.css';
+import './AuthForm.css';
 import { useInput } from '../../hooks';
 import { useState } from 'react';
 
@@ -28,19 +28,19 @@ const LoginForm = props => {
     ? 'input-field responsive error'
     : 'input-field responsive';
   const passwordClasses = passwordIsInvalid
-    ? `${styles.inputWithIcon} input-field-icon responsive error`
-    : `${styles.inputWithIcon} input-field-icon responsive`;
+    ? 'input-field-icon responsive error'
+    : 'input-field-icon responsive';
 
   const showPasswordHandler = () => {
     setShowPassword(prev => !prev);
   };
 
   return (
-    <form className={`${styles.form} shadow`}>
+    <form className="auth-form shadow">
       <div className="heading-5 text-center text-primary-dark">
         Welcome Back
       </div>
-      <p className={styles.instruction}>
+      <p className="instruction">
         Enter your credentials to access your account
       </p>
       <div>
@@ -59,11 +59,9 @@ const LoginForm = props => {
         <div className={passwordClasses}>
           <label>
             <span className="icon small" onClick={showPasswordHandler}>
-              {showPassword ? (
-                <i className="fas fa-eye-slash"></i>
-              ) : (
-                <i className="fas fa-eye"></i>
-              )}
+              <i
+                className={showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}
+              ></i>
             </span>
             <input
               value={password}
@@ -80,9 +78,9 @@ const LoginForm = props => {
       <button type="submit" className="btn primary">
         Login
       </button>
-      <p className={styles.switchMsg}>
-        Already a member?{' '}
-        <span className={styles.switchMethod}>Signup here</span>
+      <p className="switch__msg">
+        Already a member?
+        <span className="switch__method">Signup here</span>
       </p>
     </form>
   );

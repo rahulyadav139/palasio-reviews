@@ -1,6 +1,5 @@
 import './Header.css';
 import Navigation from './Navigation';
-
 import SearchInput from './SearchInput';
 
 const Header = props => {

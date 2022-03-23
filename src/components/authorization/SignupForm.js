@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useInput } from '../../hooks';
+import './AuthForm.css';
 
-import styles from './AuthForm.module.css';
 const SignupForm = props => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -62,11 +62,11 @@ const SignupForm = props => {
   const lastNameClasses = lastNameIsInvalid ? incorrectClasses : correctClasses;
   const emailClasses = emailIsInvalid ? incorrectClasses : correctClasses;
   const passwordClasses = passwordIsInvalid
-    ? `${styles.inputWithIcon} input-field-icon responsive error`
-    : `${styles.inputWithIcon} input-field-icon responsive`;
+    ? ' input-field-icon responsive error'
+    : ' input-field-icon responsive';
   const confirmPasswordClasses = confirmPasswordIsInvalid
-    ? `${styles.inputWithIcon} input-field-icon responsive error`
-    : `${styles.inputWithIcon} input-field-icon responsive`;
+    ? ' input-field-icon responsive error'
+    : ' input-field-icon responsive';
 
   const showPasswordHandler = () => {
     setShowPassword(prev => !prev);
@@ -76,14 +76,14 @@ const SignupForm = props => {
   };
 
   return (
-    <form className={`${styles.form} shadow`}>
+    <form className="auth-form shadow">
       <div className="heading-5 text-center text-primary-dark">
         Create Your Account
       </div>
-      <p className={styles.instruction}>
+      <p className="instruction">
         Enter your credentials to access your account
       </p>
-      <div className={styles.wrapperUsername}>
+      <div className="username__wrapper">
         <div>
           <label htmlFor="firstName">First Name</label>
           <input
@@ -123,11 +123,9 @@ const SignupForm = props => {
         <div className={passwordClasses}>
           <label>
             <span className="icon small" onClick={showPasswordHandler}>
-              {showPassword ? (
-                <i className="fas fa-eye-slash"></i>
-              ) : (
-                <i className="fas fa-eye"></i>
-              )}
+              <i
+                className={showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}
+              ></i>
             </span>
             <input
               value={password}
@@ -146,11 +144,11 @@ const SignupForm = props => {
         <div className={confirmPasswordClasses}>
           <label>
             <span className="icon small" onClick={showConfirmPasswordHandler}>
-              {showConfirmPassword ? (
-                <i className="fas fa-eye-slash"></i>
-              ) : (
-                <i className="fas fa-eye"></i>
-              )}
+              <i
+                className={
+                  showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'
+                }
+              ></i>
             </span>
             <input
               value={confirmPassword}
@@ -164,7 +162,7 @@ const SignupForm = props => {
         </div>
       </div>
       {passwordValidity && (
-        <p className={styles.invalidMsg}>
+        <p className="invalid__msg">
           Password should be at least 6 characters long, contains one capital
           letter, one small letter, one special character!
         </p>
@@ -173,9 +171,8 @@ const SignupForm = props => {
       <button type="submit" className="btn primary">
         Signup
       </button>
-      <p className={styles.switchMsg}>
-        Already a member?{' '}
-        <span className={styles.switchMethod}>Login here</span>
+      <p className="switch__msg">
+        Already a member? <span className="switch__method">Login here</span>
       </p>
     </form>
   );
