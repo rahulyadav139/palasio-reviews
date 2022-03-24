@@ -1,12 +1,10 @@
 import './SingleVideoPage.css';
-import { Header, VideoCard } from '../components';
+import { Header, VideoCard } from '../../components';
 import { Fragment } from 'react';
 
 const SingleVideoPage = props => {
   return (
     <Fragment>
-      <Header />
-
       <main className="main-single-video-page">
         <div className="video-container">
           <iframe
