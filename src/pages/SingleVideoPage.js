@@ -21,7 +21,7 @@ const SingleVideoPage = props => {
         </div>
         <div className="suggestions-container">
           {Array.from({ length: 5 }).map(el => (
-            <VideoCard />
+            <VideoCard dismissBtn={false} />
           ))}
         </div>
         <div className="video-details">

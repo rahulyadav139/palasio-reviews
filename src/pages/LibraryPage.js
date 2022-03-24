@@ -21,7 +21,7 @@ const LibraryPage = props => {
         </div>
         <div className="video-cards-wrapper">
           {Array.from({ length: 10 }).map(el => (
-            <VideoCard />
+            <VideoCard dismissBtn={false} />
           ))}
         </div>
       </main>

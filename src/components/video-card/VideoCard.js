@@ -1,6 +1,6 @@
 import './VideoCard.css';
 
-const VideoCard = props => {
+const VideoCard = ({dismissBtn}) => {
   return (
     <div className="video-card shadow">
       <div className="video-card__image">
@@ -18,6 +18,9 @@ const VideoCard = props => {
           <p className="text-small">13 Hours ago</p>
         </div>
       </div>
+     {dismissBtn && <button className="icon small btn-dismiss">
+        <i class="fas fa-trash"></i>
+      </button>}
     </div>
   );
 };
