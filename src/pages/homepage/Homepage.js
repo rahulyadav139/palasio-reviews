@@ -1,9 +1,23 @@
-import { Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import './Homepage.css';
-import { Header, VideoCard } from '../../components';
+import { VideoCard } from '../../components';
+import { useFetch } from '../../hooks';
 import landingPageImage from '../../assets/landing-page-image.jpg';
 
 const Homepage = props => {
+  const [videos, setVideos] = useState([]);
+  const { getData } = useFetch();
+
+  useEffect(() => {
+    (async () => {
+      const { data, error, status } = await getData(
+        'http://localhost:8080/videos',
+        false
+      );
+
+      setVideos(data.slice(0, 5));
+    })();
+  }, [getData]);
   return (
     <main className="main-homepage">
       <div className="image-homepage">
@@ -11,8 +25,8 @@ const Homepage = props => {
       </div>
       <h1>Trending Videos</h1>
       <div className="video-cards-container">
-        {Array.from({ length: 5 }).map(el => (
-          <VideoCard dismissBtn={false} />
+        {videos.map(video => (
+          <VideoCard dismissBtn={false} video={video} />
         ))}
       </div>
     </main>

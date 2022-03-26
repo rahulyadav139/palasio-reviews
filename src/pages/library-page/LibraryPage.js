@@ -1,8 +1,21 @@
 import './LibraryPage.css';
-import { Header, VideoCard } from '../../components';
-import { Fragment } from 'react';
+import { VideoCard } from '../../components';
+import { useState, useEffect } from 'react';
+import { useFetch } from '../../hooks';
 
 const LibraryPage = props => {
+  const [videos, setVideos] = useState([]);
+  const { getData } = useFetch();
+
+  useEffect(() => {
+    (async () => {
+      const { data, error, status } = await getData(
+        'http://localhost:8080/videos',
+        false
+      );
+      setVideos(data);
+    })();
+  }, [getData]);
   return (
     <main className="main-library-page">
       <div className="categories">
@@ -16,8 +29,8 @@ const LibraryPage = props => {
         </ul>
       </div>
       <div className="video-cards-wrapper">
-        {Array.from({ length: 10 }).map(el => (
-          <VideoCard dismissBtn={false} />
+        {videos.map(video => (
+          <VideoCard dismissBtn={false} video={video} />
         ))}
       </div>
     </main>
