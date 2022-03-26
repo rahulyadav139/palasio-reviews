@@ -11,23 +11,27 @@ import {
   WatchLater,
 } from './pages';
 import { Routes, Route } from 'react-router-dom';
-import { Header, VideoCard } from './components';
+import { Header } from './components';
+import { useAuth } from './hooks';
 
 function App() {
+  const { isAuth } = useAuth();
   return (
     <div className="app">
       <Header />
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/test" element={<VideoCard />} />
+        {!isAuth && <Route path="/auth" element={<AuthPage />} />}
         <Route path="/watch" element={<LibraryPage />} />
         <Route path="/watch/:videoId" element={<SingleVideoPage />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/playlists" element={<Playlists />} />
-        <Route path="/playlist/:playlistName" element={<SinglePlaylist />} />
-        <Route path="/history" element={<History />} />
-        <Route path="/watch-later" element={<WatchLater />} />
+        {isAuth && <Route path="/profile" element={<Profile />} />}
+        {isAuth && <Route path="/playlists" element={<Playlists />} />}
+        {isAuth && (
+          <Route path="/playlist/:playlistName" element={<SinglePlaylist />} />
+        )}
+        {isAuth && <Route path="/history" element={<History />} />}
+        {isAuth && <Route path="/watch-later" element={<WatchLater />} />}
+        <Route path="*" element={<Homepage />} />
       </Routes>
     </div>
   );

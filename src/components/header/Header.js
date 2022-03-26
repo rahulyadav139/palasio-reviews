@@ -1,6 +1,7 @@
 import './Header.css';
 import Navigation from './Navigation';
 import SearchInput from './SearchInput';
+import { Link } from 'react-router-dom';
 
 const Header = props => {
   return (
@@ -33,16 +34,18 @@ const Header = props => {
         <div className="hr-line fad"></div>
       </div>
 
-      <div className="brand">
-        <span className="brand__logo">
-          <i className="bi bi-hurricane"></i>
-        </span>
-        <span className="brand__text">
-          PALASIO
-          <br />
-          TALKIES
-        </span>
-      </div>
+      <Link to="/">
+        <div className="brand">
+          <span className="brand__logo">
+            <i className="bi bi-hurricane"></i>
+          </span>
+          <span className="brand__text">
+            PALASIO
+            <br />
+            TALKIES
+          </span>
+        </div>
+      </Link>
 
       <SearchInput />
 

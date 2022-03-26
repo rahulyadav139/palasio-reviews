@@ -1,8 +1,12 @@
 import './AuthForm.css';
-import { useInput } from '../../hooks';
+import { useInput, useFetch, useAuth } from '../../hooks';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = props => {
+  const { sendData } = useFetch();
+  const { loginHandler } = useAuth();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const {
     value: email,
@@ -35,8 +39,38 @@ const LoginForm = props => {
     setShowPassword(prev => !prev);
   };
 
+  const submitHandler = async e => {
+    e.preventDefault();
+    if (!emailIsValid || !passwordIsValid) {
+      emailIsTouched(true);
+      passwordIsTouched(true);
+      return;
+    }
+
+    const { data, status, error } = await sendData(
+      'http://localhost:8080/auth/login',
+      'POST',
+      { email, password },
+      false
+    );
+
+    if (error) return;
+
+    if (status === 404) {
+      return console.log('user not found');
+    }
+
+    if (status === 401) {
+      return console.log('invalid password');
+    }
+
+    loginHandler(data.token);
+
+    navigate('/watch');
+  };
+
   return (
-    <form className="auth-form shadow">
+    <form onSubmit={submitHandler} className="auth-form shadow">
       <div className="heading-5 text-center text-primary-dark">
         Welcome Back
       </div>
@@ -79,8 +113,10 @@ const LoginForm = props => {
         Login
       </button>
       <p className="switch__msg">
-        Already a member?
-        <span className="switch__method">Signup here</span>
+        Already a member?{' '}
+        <span onClick={props.onSwitch} className="switch__method">
+          Signup here
+        </span>
       </p>
     </form>
   );

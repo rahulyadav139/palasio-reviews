@@ -1,0 +1,1 @@
+export { textFormatter } from './formatter';

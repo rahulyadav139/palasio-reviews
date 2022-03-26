@@ -1,6 +1,11 @@
 import { BrowserRouter as Router } from 'react-router-dom';
+import { AuthContext, AuthProvider } from './auth-context';
 
 const Providers = props => {
-  return <Router>{props.children}</Router>;
+  return (
+    <AuthProvider>
+      <Router>{props.children}</Router>
+    </AuthProvider>
+  );
 };
-export { Providers };
+export { Providers, AuthContext };
