@@ -1,9 +1,32 @@
 import './VideoCard.css';
 import { Link } from 'react-router-dom';
+import { usePlaylists, useAuth } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
 
 const VideoCard = props => {
   const deleteFun = props.onDelete;
   const { title, author, thumbnail, _id } = props.video;
+  const wantWatchLaterButton = props.wantWatchLaterButton;
+  const { playlists, addToPlaylist, removeFromPlaylist } = usePlaylists();
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
+
+  const inWatchLater =
+    isAuth &&
+    playlists
+      .filter(el => el.title === 'watch later')[0]
+      .videos?.some(video => video._id === _id);
+
+  const watchLaterButtonHandler = () => {
+    if (!isAuth) return navigate('/auth');
+
+    inWatchLater
+      ? removeFromPlaylist({
+          playlistTitle: 'watch later',
+          videoId: props.video._id,
+        })
+      : addToPlaylist({ playlistTitle: 'watch later', video: props.video });
+  };
 
   return (
     <div className="video-card shadow">
@@ -24,9 +47,23 @@ const VideoCard = props => {
       {deleteFun && (
         <button
           onClick={() => deleteFun(_id)}
-          className="icon small btn-dismiss"
+          className="icon small btn-right-top btn-delete"
         >
           <i class="fas fa-trash"></i>
+        </button>
+      )}
+
+      {wantWatchLaterButton && (
+        <button
+          title="Watch Later"
+          onClick={watchLaterButtonHandler}
+          className="icon small btn-right-top btn-watch-later"
+        >
+          {inWatchLater ? (
+            <i class="fas fa-clock"></i>
+          ) : (
+            <i class="far fa-clock"></i>
+          )}
         </button>
       )}
     </div>

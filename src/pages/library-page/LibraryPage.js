@@ -79,7 +79,7 @@ const LibraryPage = props => {
       </div>
       <div className="video-cards-wrapper">
         {filteredVideos(category).map(video => (
-          <VideoCard video={video} />
+          <VideoCard video={video} wantWatchLaterButton={true} />
         ))}
       </div>
     </main>

@@ -114,17 +114,17 @@ const SingleVideoPage = props => {
             <iframe
               width="100%"
               height="100%"
-              src={`https://www.youtube.com/embed/${currentVideo.videoId}`}
+              src={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
               title="YouTube video player"
               frameborder="0"
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
           </div>
         )}
         <div className="suggestions-container">
           {videos.map(video => (
-            <VideoCard video={video} />
+            <VideoCard video={video} wantWatchLaterButton={true} />
           ))}
         </div>
         <div className="video-details">
