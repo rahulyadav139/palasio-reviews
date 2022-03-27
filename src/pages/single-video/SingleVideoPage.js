@@ -1,19 +1,23 @@
 import './SingleVideoPage.css';
-import { VideoCard } from '../../components';
+import { VideoCard, PlaylistModal } from '../../components';
 import { Fragment, useState, useEffect } from 'react';
-import { useFetch } from '../../hooks';
-import { useParams } from 'react-router-dom';
-import { dateFormatter } from '../../utils';
+import { useFetch, useAuth } from '../../hooks';
+import { useParams, useNavigate } from 'react-router-dom';
+import { dateFormatter, numberFormatter } from '../../utils';
 
 const SingleVideoPage = props => {
+  const { userId, isAuth } = useAuth();
   const [videos, setVideos] = useState([]);
   const [currentVideo, setCurrentVideo] = useState('');
   const [enableComment, setEnableComment] = useState(false);
-  const { getData } = useFetch();
+  const [isModal, setIsModal] = useState(false);
+  const { getData, sendData } = useFetch();
   const params = useParams();
+  const navigate = useNavigate();
   const id = params.videoId;
-  console.log(id);
-  console.log(currentVideo);
+
+  let isLikedReady = true;
+  let isDislikedReady = true;
 
   useEffect(() => {
     (async () => {
@@ -33,6 +37,75 @@ const SingleVideoPage = props => {
   const cancelCommentHandler = () => {
     setEnableComment(false);
   };
+
+  const hidePlaylistModalHandler = () => {
+    setIsModal(false);
+  };
+
+  const showPlaylistModalHandler = () => {
+    if (!isAuth) return navigate('/auth');
+
+    setIsModal(true);
+  };
+
+  const likedHandler = async e => {
+    if (!isAuth) return navigate('/auth');
+
+    if (isLikedReady) {
+      isLikedReady = false;
+
+      let likedArr = currentVideo.liked.slice();
+
+      if (e.target.checked) {
+        likedArr.push(userId);
+      } else {
+        likedArr = likedArr.filter(el => el !== userId);
+      }
+
+      const { data, error, status } = await sendData(
+        'http://localhost:8080/videos/liked',
+        'POST',
+        { _id: id, likedArr },
+        true
+      );
+
+      if (error) return;
+
+      setCurrentVideo(prev => ({ ...prev, liked: likedArr }));
+
+      isLikedReady = true;
+    }
+  };
+
+  const dislikedHandler = async e => {
+    if (!isAuth) return navigate('/auth');
+
+    if (isDislikedReady) {
+      isDislikedReady = false;
+
+      let dislikedArr = currentVideo.disliked.slice();
+
+      if (e.target.checked) {
+        dislikedArr.push(userId);
+      } else {
+        dislikedArr = dislikedArr.filter(el => el !== userId);
+      }
+
+      const { data, error, status } = await sendData(
+        'http://localhost:8080/videos/disliked',
+        'POST',
+        { _id: id, dislikedArr },
+        true
+      );
+
+      if (error) return;
+
+      setCurrentVideo(prev => ({ ...prev, disliked: dislikedArr }));
+
+      isDislikedReady = true;
+    }
+  };
+
   return (
     <Fragment>
       <main className="main-single-video-page">
@@ -51,7 +124,7 @@ const SingleVideoPage = props => {
         )}
         <div className="suggestions-container">
           {videos.map(video => (
-            <VideoCard dismissBtn={false} video={video} />
+            <VideoCard video={video} />
           ))}
         </div>
         <div className="video-details">
@@ -61,19 +134,41 @@ const SingleVideoPage = props => {
               <p>1,00,000 views</p>
               <p>{dateFormatter(currentVideo.publishedAt)}</p>
             </div>
-            <div className="flex gap ">
-              <span>
-                <i className="far fa-thumbs-up"></i> 1.1K
-              </span>
-              <span>
-                <i className="far fa-thumbs-down"></i> 0.7K
-              </span>
-              <span>
+            <div className="video-actions flex gap ">
+              <input
+                onChange={likedHandler}
+                type="checkbox"
+                id="liked"
+                checked={currentVideo.liked?.includes(userId)}
+              />
+              <label htmlFor="liked">
+                {currentVideo.liked?.includes(userId) ? (
+                  <i className="fas fa-thumbs-up"></i>
+                ) : (
+                  <i className="far fa-thumbs-up"></i>
+                )}
+                {` ${numberFormatter(currentVideo.liked?.length)}`}
+              </label>
+              <input
+                onChange={dislikedHandler}
+                type="checkbox"
+                id="disliked"
+                checked={currentVideo.disliked?.includes(userId)}
+              />
+              <label htmlFor="disliked">
+                {currentVideo.disliked?.includes(userId) ? (
+                  <i className="fas fa-thumbs-down"></i>
+                ) : (
+                  <i className="far fa-thumbs-down"></i>
+                )}
+                {` ${numberFormatter(currentVideo.disliked?.length)}`}
+              </label>
+              <button>
                 <i className="fas fa-share-alt"></i> Share
-              </span>
-              <span>
+              </button>
+              <button onClick={showPlaylistModalHandler}>
                 <i className="far fa-bookmark"></i> Add to playlist
-              </span>
+              </button>
             </div>
           </div>
           <div className="hr-line fad"></div>
@@ -110,6 +205,9 @@ const SingleVideoPage = props => {
           </div>
         </div>
       </main>
+      {isModal && (
+        <PlaylistModal onHide={hidePlaylistModalHandler} video={currentVideo} />
+      )}
     </Fragment>
   );
 };

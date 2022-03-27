@@ -24,9 +24,7 @@
 .video-comments input {
   width: 100%;
   border: none;
-
   outline: none;
-
   border-bottom: 1px solid;
   padding: 0.5rem 0;
 }
@@ -53,4 +51,21 @@
   background: var(--black-color);
   color: var(--white-color);
   margin-left: 1rem;
+}
+
+.video-actions > button:last-child {
+  position: relative;
+}
+.video-actions button {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.video-actions input {
+  display: none;
+}
+.video-actions label {
+  cursor: pointer;
 }

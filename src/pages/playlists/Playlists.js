@@ -1,8 +1,10 @@
 import { Fragment } from 'react';
 import './Playlists.css';
-import { Header, PlaylistCard } from '../../components';
+import { PlaylistCard } from '../../components';
+import { usePlaylists } from '../../hooks';
 
 const Playlists = props => {
+  const { playlists } = usePlaylists();
   return (
     <main className="main-playlists">
       <div className="flex space-between align-center">
@@ -12,9 +14,14 @@ const Playlists = props => {
         </button>
       </div>
       <div className="playlists-container">
-        {Array.from({ length: 5 }).map(el => (
-          <PlaylistCard />
-        ))}
+        {playlists
+          .filter(el => el.title !== 'watch later')
+          .map(playlist => (
+            <PlaylistCard
+              title={playlist.title}
+              numOfVideos={playlist.videos.length}
+            />
+          ))}
       </div>
     </main>
   );

@@ -24,14 +24,16 @@ const Navigation = props => {
         </li>
 
         {isAuth && (
-          <li className="profile-item list-item">
-            <div className="avatar small">
-              <img
-                src="https://i.picsum.photos/id/704/536/354.jpg?hmac=k_PDx86tD-ILOtsUOKY9t5LAL5ycKiQ4ryVdlxhWoek"
-                alt="sample"
-              />
-            </div>
-          </li>
+          <Link to="/profile">
+            <li className="profile-item list-item">
+              <div className="avatar small">
+                <img
+                  src="https://i.picsum.photos/id/704/536/354.jpg?hmac=k_PDx86tD-ILOtsUOKY9t5LAL5ycKiQ4ryVdlxhWoek"
+                  alt="sample"
+                />
+              </div>
+            </li>
+          </Link>
         )}
 
         {!isAuth && (

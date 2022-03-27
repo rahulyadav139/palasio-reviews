@@ -26,7 +26,7 @@ const Homepage = props => {
       <h1>Trending Videos</h1>
       <div className="video-cards-container">
         {videos.map(video => (
-          <VideoCard dismissBtn={false} video={video} />
+          <VideoCard video={video} />
         ))}
       </div>
     </main>

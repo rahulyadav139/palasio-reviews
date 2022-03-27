@@ -1,6 +1,6 @@
-import { useState, Fragment } from 'react';
+import { useState } from 'react';
 
-import { LoginForm, SignupForm, Header } from '../../components';
+import { LoginForm, SignupForm } from '../../components';
 import LoginImg from '../../assets/login.png';
 import './AuthPage.css';
 

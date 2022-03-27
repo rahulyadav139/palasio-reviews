@@ -1,0 +1,63 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+
+.playlist-modal {
+  position: fixed;
+  min-width: 200px;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  background: var(--white-color);
+  z-index: 100;
+  padding: 1rem;
+}
+
+.playlist-modal ul {
+  list-style: none;
+}
+.playlist-modal li {
+  margin-top: 0.3rem;
+}
+.playlist-modal .hr-line {
+  margin-top: 0.3rem;
+}
+.playlist-modal label {
+  margin-left: 0.3rem;
+}
+.playlist-modal label,
+.playlist-modal input {
+  cursor: pointer;
+}
+.playlist-modal button {
+  background: none;
+  outline: none;
+  border: none;
+}
+.playlist-modal li {
+  display: flex;
+  align-items: center;
+}
+.btn-modal-dismiss {
+  cursor: pointer;
+}
+
+.create-new-playlist-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+  margin-top: 0.3rem;
+}
+
+.create-new-playlist-actions input {
+  border: none;
+  border-bottom: 1px solid var(--black-color);
+  outline: none;
+}
