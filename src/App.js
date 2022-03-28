@@ -11,11 +11,12 @@ import {
   WatchLater,
 } from './pages';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Header } from './components';
-import { useAuth } from './hooks';
+import { Header, Loading } from './components';
+import { useAuth, useLoading } from './hooks';
 
 function App() {
   const { isAuth } = useAuth();
+  const { loading } = useLoading();
   return (
     <div className="app">
       <Header />
@@ -33,6 +34,7 @@ function App() {
         {isAuth && <Route path="/watch-later" element={<WatchLater />} />}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      {loading && <Loading />}
     </div>
   );
 }

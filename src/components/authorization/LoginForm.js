@@ -6,7 +6,7 @@ import {
   usePlaylists,
   useHistory,
 } from '../../hooks';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = props => {
@@ -16,6 +16,18 @@ const LoginForm = props => {
   const navigate = useNavigate();
   const { getPlaylistsData } = usePlaylists();
   const [showPassword, setShowPassword] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  useEffect(() => {
+    let timer;
+
+    if (toast) {
+      timer = setTimeout(() => setToast(null), 2000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [toast]);
+
   const {
     value: email,
     setIsTouched: emailIsTouched,
@@ -65,14 +77,18 @@ const LoginForm = props => {
     if (error) return;
 
     if (status === 404) {
-      return console.log('user not found');
+      return setToast('User not found!');
     }
 
     if (status === 401) {
-      return console.log('invalid password');
+      return setToast('incorrect password!');
     }
 
-    loginHandler({ token: data.token, userId: data.userId });
+    loginHandler({
+      token: data.token,
+      userId: data.userId,
+      username: data.username,
+    });
     getPlaylistsData(data.playlists);
     getHistory(data.history);
 
@@ -128,6 +144,15 @@ const LoginForm = props => {
           Signup here
         </span>
       </p>
+
+      {toast && (
+        <div class="toast danger">
+          <span class="icon small white">
+            <i class="fas fa-bell"></i>
+          </span>
+          {` ${toast}`}
+        </div>
+      )}
     </form>
   );
 };

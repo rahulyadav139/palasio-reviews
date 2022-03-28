@@ -6,15 +6,21 @@ const defaultState = {
   isAuth: false,
   token: '',
   userId: '',
+  username: '',
 };
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
-      return { isAuth: true, token: action.token, userId: action.userId };
+      return {
+        isAuth: true,
+        token: action.token,
+        userId: action.userId,
+        username: action.username,
+      };
 
     case 'LOGOUT':
-      return { isAuth: false, token: '', userId: '' };
+      return { isAuth: false, token: '', userId: '', username: '' };
 
     default:
       return defaultState;
@@ -24,8 +30,10 @@ const authReducer = (state, action) => {
 const AuthProvider = props => {
   const [state, dispatch] = useReducer(authReducer, defaultState);
 
-  const loginHandler = ({ token, userId }) => {
-    dispatch({ type: 'LOGIN', token, userId });
+  console.log(state);
+
+  const loginHandler = ({ token, userId, username }) => {
+    dispatch({ type: 'LOGIN', token, userId, username });
   };
 
   const logoutHandler = () => {
@@ -36,6 +44,7 @@ const AuthProvider = props => {
     isAuth: state.isAuth,
     token: state.token,
     userId: state.userId,
+    username: state.username,
     loginHandler,
     logoutHandler,
   };

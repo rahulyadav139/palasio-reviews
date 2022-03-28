@@ -1,0 +1,26 @@
+.loading-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  z-index: 151;
+}
+.loading-container img {
+  width: 200px;
+}
+.loading-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(245, 245, 245, 0.6);
+  z-index: 150;
+}
+
+.dark-theme .loading-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+}
+.no-overflow {
+  overflow: hidden;
+}

@@ -3,6 +3,7 @@ import './Homepage.css';
 import { VideoCard } from '../../components';
 import { useFetch } from '../../hooks';
 import landingPageImage from '../../assets/landing-page-image.jpg';
+import { Link } from 'react-router-dom';
 
 const Homepage = props => {
   const [videos, setVideos] = useState([]);
@@ -20,8 +21,11 @@ const Homepage = props => {
   }, [getData]);
   return (
     <main className="main-homepage">
-      <div className="image-homepage">
-        <img className="img-responsive" src={landingPageImage} alt="sample" />
+      <div className="slide-container">
+        <h1>India's Most Trusted Car Reviews</h1>
+        <Link to="/watch">
+          <button className="btn error">Watch</button>
+        </Link>
       </div>
       <h1>Trending Videos</h1>
       <div className="video-cards-container">

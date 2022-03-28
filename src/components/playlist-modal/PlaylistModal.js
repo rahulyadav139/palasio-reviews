@@ -52,11 +52,6 @@ const PlaylistModal = props => {
           </div>
           <div className="hr-line solid thin"></div>
           <ul>
-            {/* <li>
-              <input type="checkbox" value="watch later" id="watch-later" />
-              <label htmlFor="watch-later">Watch Later</label>
-            </li> */}
-
             {playlists.map(el => (
               <li key={uuid()}>
                 <input
@@ -74,7 +69,10 @@ const PlaylistModal = props => {
           </ul>
           <div className="hr-line solid thin"></div>
           {!wantNewPlaylist && (
-            <button onClick={() => setWantNewPlaylist(true)}>
+            <button
+              className="btn-create-playlist"
+              onClick={() => setWantNewPlaylist(true)}
+            >
               + Create new playlist
             </button>
           )}

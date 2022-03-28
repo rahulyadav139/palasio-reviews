@@ -1,8 +1,9 @@
-import { useAuth } from './index';
+import { useAuth, useLoading } from './index';
 import { useCallback } from 'react';
 
 const useFetch = () => {
   const { token } = useAuth();
+  const { setLoading } = useLoading();
 
   const sendData = useCallback(
     async (url, method, body, authStatus = false) => {
@@ -15,6 +16,7 @@ const useFetch = () => {
           };
 
       try {
+        setLoading(true);
         const res = await fetch(url, {
           method,
           headers,
@@ -24,9 +26,11 @@ const useFetch = () => {
         status = res.status;
 
         data = await res.json();
+        setLoading(false);
       } catch (err) {
         error = err;
         console.log(err);
+        setLoading(false);
       }
 
       return { status, data, error };
@@ -46,13 +50,16 @@ const useFetch = () => {
           };
 
       try {
+        setLoading(true);
         const res = await fetch(url, options);
 
         status = res.status;
 
         data = await res.json();
+        setLoading(false);
       } catch (err) {
         error = err;
+        setLoading(false);
       }
 
       return { data, error, status };

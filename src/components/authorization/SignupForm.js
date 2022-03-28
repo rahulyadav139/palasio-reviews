@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useInput, useFetch, useAuth, usePlaylists } from '../../hooks';
 import { textFormatter } from '../../utils';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,16 @@ const SignupForm = props => {
   const [toast, setToast] = useState(false);
   const navigate = useNavigate();
   const { getPlaylistsData } = usePlaylists();
+
+  useEffect(() => {
+    let timer;
+
+    if (toast) {
+      timer = setTimeout(() => setToast(null), 2000);
+    }
+
+    return () => clearTimeout(timer);
+  }, [toast]);
   const {
     value: firstName,
     setIsTouched: firstNameIsTouched,
@@ -85,6 +95,8 @@ const SignupForm = props => {
   const submitHandler = async e => {
     e.preventDefault();
 
+    setPasswordValidity(false);
+
     if (
       !firstNameIsValid ||
       !lastNameIsValid ||
@@ -100,8 +112,20 @@ const SignupForm = props => {
       return;
     }
 
+    const regexSmallLater = /[a-z]/g;
+    const regexCapitalLater = /[A-Z]/g;
+    const regexSpecialChar = /[^a-zA-Z0-9]/g;
+
+    if (
+      !password.match(regexSmallLater) ||
+      !password.match(regexCapitalLater) ||
+      !password.match(regexSpecialChar)
+    ) {
+      setPasswordValidity(true);
+      return;
+    }
     if (password !== confirmPassword) {
-      console.log("password doesn't match");
+      setToast("password doesn't match");
       return;
     }
 
@@ -125,7 +149,11 @@ const SignupForm = props => {
       return;
     }
 
-    loginHandler({ token: data.token, userId: data.userId });
+    loginHandler({
+      token: data.token,
+      userId: data.userId,
+      username: data.username,
+    });
 
     getPlaylistsData(data.playlists);
 
@@ -234,6 +262,15 @@ const SignupForm = props => {
           Login here
         </span>
       </p>
+
+      {toast && (
+        <div class="toast danger">
+          <span class="icon small white">
+            <i class="fas fa-bell"></i>
+          </span>
+          {` ${toast}`}
+        </div>
+      )}
     </form>
   );
 };
