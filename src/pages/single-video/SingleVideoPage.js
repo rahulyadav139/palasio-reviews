@@ -1,12 +1,15 @@
 import './SingleVideoPage.css';
 import { VideoCard, PlaylistModal } from '../../components';
 import { Fragment, useState, useEffect } from 'react';
-import { useFetch, useAuth } from '../../hooks';
+import { useFetch, useAuth, useHistory } from '../../hooks';
 import { useParams, useNavigate } from 'react-router-dom';
 import { dateFormatter, numberFormatter } from '../../utils';
 
+let isReadyToUpdate = true;
+
 const SingleVideoPage = props => {
   const { userId, isAuth } = useAuth();
+  const { addToHistory } = useHistory();
   const [videos, setVideos] = useState([]);
   const [currentVideo, setCurrentVideo] = useState('');
   const [enableComment, setEnableComment] = useState(false);
@@ -16,7 +19,9 @@ const SingleVideoPage = props => {
   const navigate = useNavigate();
   const id = params.videoId;
 
-  let isReadyToUpdate = true;
+  useEffect(() => {
+    if (currentVideo) return addToHistory(currentVideo);
+  }, [currentVideo]);
 
   useEffect(() => {
     (async () => {
