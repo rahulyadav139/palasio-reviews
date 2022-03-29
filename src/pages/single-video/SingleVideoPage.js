@@ -212,7 +212,7 @@ const SingleVideoPage = props => {
                     <button onClick={submitCommentHandler}>Comment</button>
                   </div>
                 )}
-                <ul>
+                <ul className="flex col gap">
                   {currentVideo.comments?.map(el => (
                     <li className="flex gap">
                       <div className="avatar small">{el?.user[0]}</div>
