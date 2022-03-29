@@ -136,8 +136,8 @@ const SingleVideoPage = props => {
   return (
     <Fragment>
       <main className="main-single-video-page">
-        <div>
-          {currentVideo && (
+        {currentVideo && (
+          <div>
             <div className="video-container">
               <iframe
                 width="100%"
@@ -149,88 +149,89 @@ const SingleVideoPage = props => {
                 allowFullScreen
               ></iframe>
             </div>
-          )}
-          <div className="video-details">
-            <h3>{currentVideo?.title}</h3>
-            <div className="flex space-between">
-              <div className="flex gap text-small">
-                <p>1,00,000 views</p>
-                <p>{dateFormatter(currentVideo.publishedAt)}</p>
-              </div>
-              <div className="video-actions flex gap ">
-                <input
-                  onChange={likedDislikedHandler.bind(null, 'like')}
-                  type="checkbox"
-                  id="liked"
-                  checked={currentVideo.liked?.includes(userId)}
-                />
-                <label htmlFor="liked">
-                  {currentVideo.liked?.includes(userId) ? (
-                    <i className="fas fa-thumbs-up"></i>
-                  ) : (
-                    <i className="far fa-thumbs-up"></i>
-                  )}
-                  {` ${numberFormatter(currentVideo.liked?.length)}`}
-                </label>
-                <input
-                  onChange={likedDislikedHandler.bind(null, 'dislike')}
-                  type="checkbox"
-                  id="disliked"
-                  checked={currentVideo.disliked?.includes(userId)}
-                />
-                <label htmlFor="disliked">
-                  {currentVideo.disliked?.includes(userId) ? (
-                    <i className="fas fa-thumbs-down"></i>
-                  ) : (
-                    <i className="far fa-thumbs-down"></i>
-                  )}
-                  {` ${numberFormatter(currentVideo.disliked?.length)}`}
-                </label>
-                <button>
-                  <i className="fas fa-share-alt"></i> Share
-                </button>
-                <button onClick={showPlaylistModalHandler}>
-                  <i className="far fa-bookmark"></i> Add to playlist
-                </button>
-              </div>
-            </div>
-            <div className="hr-line fad"></div>
-            <div className="video-description">
-              <h5>Description</h5>
-              <p className="text-small">{currentVideo?.description}</p>
-            </div>
-            <div className="video-comments">
-              <input
-                ref={commentInputRef}
-                onFocus={focusCommentHandler}
-                placeholder="Comment"
-                type="text"
-              />
-              {enableComment && (
-                <div className="video-comments__buttons">
-                  <button onClick={cancelCommentHandler}>Cancel</button>
-                  <button onClick={submitCommentHandler}>Comment</button>
+
+            <div className="video-details">
+              <h3>{currentVideo?.title}</h3>
+              <div className="flex space-between">
+                <div className="flex gap text-small">
+                  <p>1,00,000 views</p>
+                  <p>{dateFormatter(currentVideo.publishedAt)}</p>
                 </div>
-              )}
-              <ul>
-                {currentVideo.comments?.map(el => (
-                  <li className="flex gap">
-                    <div className="avatar small">{el?.user[0]}</div>
-                    <div>
-                      <div className="flex gap">
-                        <p className="text-small text-bold">{el.user}</p>
-                        <p className="text-small">
-                          {timeDifferenceFun(el.time)}
-                        </p>
+                <div className="video-actions flex gap ">
+                  <input
+                    onChange={likedDislikedHandler.bind(null, 'like')}
+                    type="checkbox"
+                    id="liked"
+                    checked={currentVideo.liked?.includes(userId)}
+                  />
+                  <label htmlFor="liked">
+                    {currentVideo.liked?.includes(userId) ? (
+                      <i className="fas fa-thumbs-up"></i>
+                    ) : (
+                      <i className="far fa-thumbs-up"></i>
+                    )}
+                    {` ${numberFormatter(currentVideo.liked?.length)}`}
+                  </label>
+                  <input
+                    onChange={likedDislikedHandler.bind(null, 'dislike')}
+                    type="checkbox"
+                    id="disliked"
+                    checked={currentVideo.disliked?.includes(userId)}
+                  />
+                  <label htmlFor="disliked">
+                    {currentVideo.disliked?.includes(userId) ? (
+                      <i className="fas fa-thumbs-down"></i>
+                    ) : (
+                      <i className="far fa-thumbs-down"></i>
+                    )}
+                    {` ${numberFormatter(currentVideo.disliked?.length)}`}
+                  </label>
+                  <button>
+                    <i className="fas fa-share-alt"></i> Share
+                  </button>
+                  <button onClick={showPlaylistModalHandler}>
+                    <i className="far fa-bookmark"></i> Add to playlist
+                  </button>
+                </div>
+              </div>
+              <div className="hr-line fad"></div>
+              <div className="video-description">
+                <h5>Description</h5>
+                <p className="text-small">{currentVideo?.description}</p>
+              </div>
+              <div className="video-comments">
+                <input
+                  ref={commentInputRef}
+                  onFocus={focusCommentHandler}
+                  placeholder="Comment"
+                  type="text"
+                />
+                {enableComment && (
+                  <div className="video-comments__buttons">
+                    <button onClick={cancelCommentHandler}>Cancel</button>
+                    <button onClick={submitCommentHandler}>Comment</button>
+                  </div>
+                )}
+                <ul>
+                  {currentVideo.comments?.map(el => (
+                    <li className="flex gap">
+                      <div className="avatar small">{el?.user[0]}</div>
+                      <div>
+                        <div className="flex gap">
+                          <p className="text-small text-bold">{el.user}</p>
+                          <p className="text-small">
+                            {timeDifferenceFun(el.time)}
+                          </p>
+                        </div>
+                        <p>{el.comment}</p>
                       </div>
-                      <p>{el.comment}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <div className="suggestions-container">
           {videos.slice(0, 10).map(video => (
             <VideoCard
