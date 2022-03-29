@@ -57,3 +57,9 @@
     background-size: cover;
   }
 }
+
+@media only screen and (max-width: 450px) {
+  .video-cards-container {
+    grid-template-columns: 1fr;
+  }
+}

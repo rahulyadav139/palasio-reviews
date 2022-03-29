@@ -14,7 +14,7 @@ const Profile = props => {
   return (
     <Fragment>
       <main className="main-profile-page">
-        <div className="flex col center">
+        <div className="flex col gap center">
           <div className="avatar large">{username[0]}</div>
           <h1>{username}</h1>
         </div>

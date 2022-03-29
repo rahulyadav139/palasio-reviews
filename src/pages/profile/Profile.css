@@ -9,5 +9,12 @@
 .profile-items {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+
+@media only screen and (max-width: 450px) {
+  .main-profile-page {
+    flex-direction: column;
+    text-align: center;
+  }
 }

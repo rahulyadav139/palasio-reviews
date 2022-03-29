@@ -8,7 +8,7 @@ const PlaylistCard = ({ title, numOfVideos }) => {
   return (
     <div className="playlist-card shadow">
       <Link to={`/playlist/${title}`}>
-        <div>
+        <div className="playlist-details">
           <p className="text-bold">{textFormatter(title)}</p>
           <p className="text-small text-grey">
             {numOfVideos > 1 ? `${numOfVideos} videos` : `${numOfVideos} video`}

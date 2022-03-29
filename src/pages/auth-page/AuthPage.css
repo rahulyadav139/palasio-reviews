@@ -16,7 +16,7 @@
     flex-direction: column;
   }
 
-  .main-auth-page section:nth-child(2) {
+  .main-auth-page section:nth-child(1) {
     display: none;
   }
 }
