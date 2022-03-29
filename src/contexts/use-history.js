@@ -9,38 +9,35 @@ const HistoryProvider = props => {
   const { sendData } = useFetch();
   const [history, setHistory] = useState([]);
 
-  const addToHistoryHandler = useCallback(
-    async videoData => {
-      if (isHistoryReadyToUpdate) {
-        isHistoryReadyToUpdate = false;
+  const addToHistoryHandler = async videoData => {
+    if (isHistoryReadyToUpdate) {
+      isHistoryReadyToUpdate = false;
 
-        let updatedHistory;
+      let updatedHistory;
 
-        history.findIndex(el => el._id === videoData._id) >= 0
-          ? (updatedHistory = history.map(el =>
-              el._id === videoData._id
-                ? { ...el, watchedAt: new Date().toISOString() }
-                : el
-            ))
-          : (updatedHistory = history.concat({
-              ...videoData,
-              watchedAt: new Date().toISOString(),
-            }));
+      history.findIndex(el => el._id === videoData._id) >= 0
+        ? (updatedHistory = history.map(el =>
+            el._id === videoData._id
+              ? { ...el, watchedAt: new Date().toISOString() }
+              : el
+          ))
+        : (updatedHistory = history.concat({
+            ...videoData,
+            watchedAt: new Date().toISOString(),
+          }));
 
-        const { error } = await sendData(
-          `${process.env.REACT_APP_BACKEND_URL}/user/update-history`,
-          'POST',
-          updatedHistory,
-          true
-        );
+      const { error } = await sendData(
+        `${process.env.REACT_APP_BACKEND_URL}/user/update-history`,
+        'POST',
+        updatedHistory,
+        true
+      );
 
-        if (!error) setHistory(updatedHistory);
+      if (!error) setHistory(updatedHistory);
 
-        isHistoryReadyToUpdate = true;
-      }
-    },
-    [history, sendData]
-  );
+      isHistoryReadyToUpdate = true;
+    }
+  };
 
   const removeFromHistoryHandler = async id => {
     if (isHistoryReadyToUpdate) {

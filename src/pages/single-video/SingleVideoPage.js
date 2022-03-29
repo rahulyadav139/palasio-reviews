@@ -22,10 +22,10 @@ const SingleVideoPage = props => {
   const id = params.videoId;
 
   useEffect(() => {
-    if (currentVideo) addToHistory(currentVideo);
+    if (currentVideo && isAuth) addToHistory(currentVideo);
 
     window.scrollTo(0, 0);
-  }, [currentVideo, addToHistory]);
+  }, [currentVideo, isAuth]);
 
   useEffect(() => {
     (async () => {
