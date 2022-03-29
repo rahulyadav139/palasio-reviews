@@ -43,6 +43,7 @@ const SingleVideoPage = props => {
   };
 
   const cancelCommentHandler = () => {
+    commentInputRef.current.value = '';
     setEnableComment(false);
   };
 
@@ -103,7 +104,7 @@ const SingleVideoPage = props => {
 
     const comment = commentInputRef.current.value;
 
-    if (!comment) return;
+    if (!comment.trim()) return;
 
     const commentData = {
       user: username,
