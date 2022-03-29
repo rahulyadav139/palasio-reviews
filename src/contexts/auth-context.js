@@ -30,8 +30,6 @@ const authReducer = (state, action) => {
 const AuthProvider = props => {
   const [state, dispatch] = useReducer(authReducer, defaultState);
 
-  console.log(state);
-
   const loginHandler = ({ token, userId, username }) => {
     dispatch({ type: 'LOGIN', token, userId, username });
   };

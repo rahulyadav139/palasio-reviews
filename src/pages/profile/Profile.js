@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks';
 
 const Profile = props => {
   const navigate = useNavigate();
-  const { logoutHandler } = useAuth();
+  const { logoutHandler, username } = useAuth();
 
   const userLogoutHandler = () => {
     logoutHandler();
@@ -15,13 +15,8 @@ const Profile = props => {
     <Fragment>
       <main className="main-profile-page">
         <div className="flex col center">
-          <div className="avatar large">
-            <img
-              src="https://i.picsum.photos/id/317/536/354.jpg?hmac=M_fYXAj8A56pCXSeb2XGEDY3_oAS3wCt-snLGHWxKGc"
-              alt="profile"
-            />
-          </div>
-          <h1>Rahul Yadav</h1>
+          <div className="avatar large">{username[0]}</div>
+          <h1>{username}</h1>
         </div>
         <div className="profile-items">
           <Link to="/watch-later">

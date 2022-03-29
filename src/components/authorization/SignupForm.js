@@ -136,7 +136,7 @@ const SignupForm = props => {
     };
 
     const { data, error, status } = await sendData(
-      'http://localhost:8080/auth/signup',
+      `${process.env.REACT_APP_BACKEND_URL}/auth/signup`,
       'PUT',
       userData,
       false

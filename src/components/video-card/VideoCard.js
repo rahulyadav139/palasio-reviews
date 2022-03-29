@@ -59,11 +59,7 @@ const VideoCard = props => {
           onClick={watchLaterButtonHandler}
           className="icon small btn-right-top btn-watch-later"
         >
-          {inWatchLater ? (
-            <i class="fas fa-clock"></i>
-          ) : (
-            <i class="far fa-clock"></i>
-          )}
+          <i className={inWatchLater ? 'fas fa-clock' : 'far fa-clock'}></i>
         </button>
       )}
     </div>

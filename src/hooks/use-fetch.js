@@ -35,7 +35,7 @@ const useFetch = () => {
 
       return { status, data, error };
     },
-    [token]
+    [token, setLoading]
   );
 
   const getData = useCallback(
@@ -64,7 +64,7 @@ const useFetch = () => {
 
       return { data, error, status };
     },
-    [token]
+    [token, setLoading]
   );
 
   return { sendData, getData };

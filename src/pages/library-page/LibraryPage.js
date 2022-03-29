@@ -10,8 +10,8 @@ const LibraryPage = props => {
 
   useEffect(() => {
     (async () => {
-      const { data, error, status } = await getData(
-        'http://localhost:8080/videos',
+      const { data } = await getData(
+        `${process.env.REACT_APP_BACKEND_URL}/videos`,
         false
       );
       setVideos(data);
@@ -79,7 +79,11 @@ const LibraryPage = props => {
       </div>
       <div className="video-cards-wrapper">
         {filteredVideos(category).map(video => (
-          <VideoCard video={video} wantWatchLaterButton={true} />
+          <VideoCard
+            key={video._id}
+            video={video}
+            wantWatchLaterButton={true}
+          />
         ))}
       </div>
     </main>

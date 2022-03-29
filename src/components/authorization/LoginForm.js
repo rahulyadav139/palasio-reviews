@@ -68,7 +68,7 @@ const LoginForm = props => {
     }
 
     const { data, status, error } = await sendData(
-      'http://localhost:8080/auth/login',
+      `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
       'POST',
       { email, password },
       false
@@ -91,6 +91,8 @@ const LoginForm = props => {
     });
     getPlaylistsData(data.playlists);
     getHistory(data.history);
+
+    console.log(navigate(-1));
 
     navigate(-1);
   };

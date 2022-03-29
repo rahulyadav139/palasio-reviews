@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 const Navigation = props => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'light');
-  const { isAuth } = useAuth();
+  const { isAuth, username } = useAuth();
 
   useEffect(() => {
     theme === 'dark'
@@ -48,12 +48,7 @@ const Navigation = props => {
         {isAuth && (
           <Link to="/profile">
             <li className="profile-item list-item">
-              <div className="avatar small">
-                <img
-                  src="https://i.picsum.photos/id/704/536/354.jpg?hmac=k_PDx86tD-ILOtsUOKY9t5LAL5ycKiQ4ryVdlxhWoek"
-                  alt="sample"
-                />
-              </div>
+              <div className="avatar small">{username[0]}</div>
             </li>
           </Link>
         )}

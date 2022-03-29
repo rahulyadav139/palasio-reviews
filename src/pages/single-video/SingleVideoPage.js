@@ -25,12 +25,12 @@ const SingleVideoPage = props => {
     if (currentVideo) addToHistory(currentVideo);
 
     window.scrollTo(0, 0);
-  }, [currentVideo]);
+  }, [currentVideo, addToHistory]);
 
   useEffect(() => {
     (async () => {
-      const { data, error, status } = await getData(
-        'http://localhost:8080/videos',
+      const { data } = await getData(
+        `${process.env.REACT_APP_BACKEND_URL}/videos`,
         false
       );
       setVideos(data.filter(el => el._id !== id));
@@ -79,8 +79,8 @@ const SingleVideoPage = props => {
           : (updatedDisliked = updatedDisliked.filter(el => el !== userId));
       }
 
-      const { data, error, status } = await sendData(
-        'http://localhost:8080/videos/liked-disliked',
+      const { error } = await sendData(
+        `${process.env.REACT_APP_BACKEND_URL}/videos/liked-disliked`,
         'POST',
         { _id: id, updatedLiked, updatedDisliked },
         true
@@ -103,6 +103,8 @@ const SingleVideoPage = props => {
 
     const comment = commentInputRef.current.value;
 
+    if (!comment) return;
+
     const commentData = {
       user: username,
       comment: comment,
@@ -111,8 +113,8 @@ const SingleVideoPage = props => {
 
     if (isReadyToComment) {
       isReadyToComment = false;
-      const { data, error, status } = await sendData(
-        'http://localhost:8080/videos/new-comment',
+      const { error } = await sendData(
+        `${process.env.REACT_APP_BACKEND_URL}/videos/new-comment`,
         'POST',
         { _id: id, commentData },
         true
@@ -142,9 +144,9 @@ const SingleVideoPage = props => {
                 height="100%"
                 src={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
                 title="YouTube video player"
-                frameborder="0"
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
+                allowFullScreen
               ></iframe>
             </div>
           )}
@@ -231,7 +233,11 @@ const SingleVideoPage = props => {
         </div>
         <div className="suggestions-container">
           {videos.slice(0, 10).map(video => (
-            <VideoCard video={video} wantWatchLaterButton={true} />
+            <VideoCard
+              key={video._id}
+              video={video}
+              wantWatchLaterButton={true}
+            />
           ))}
         </div>
       </main>

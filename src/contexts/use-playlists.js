@@ -21,15 +21,14 @@ const playlistsReducer = (state, action) => {
 
     case 'DELETE':
       return action.payload;
+    default:
+      return [];
   }
 };
 
 const PlaylistsProvider = props => {
   const [state, dispatch] = useReducer(playlistsReducer, []);
   const { sendData } = useFetch();
-
-  console.log(state);
-  console.log(isReadyToUpdatePlaylists);
 
   const createNewPlaylistHandler = async playlistData => {
     if (isReadyToUpdatePlaylists) {
@@ -47,7 +46,7 @@ const PlaylistsProvider = props => {
       const updatedPlaylists = [...state, playlistData];
 
       const { error } = await sendData(
-        'http://localhost:8080/user/update-playlists',
+        `${process.env.REACT_APP_BACKEND_URL}/user/update-playlists`,
         'POST',
         updatedPlaylists,
         true
@@ -73,7 +72,7 @@ const PlaylistsProvider = props => {
       );
 
       const { error } = await sendData(
-        'http://localhost:8080/user/update-playlists',
+        `${process.env.REACT_APP_BACKEND_URL}/user/update-playlists`,
         'POST',
         updatedPlaylists,
         true
@@ -96,7 +95,7 @@ const PlaylistsProvider = props => {
       );
 
       const { error } = await sendData(
-        'http://localhost:8080/user/update-playlists',
+        `${process.env.REACT_APP_BACKEND_URL}/user/update-playlists`,
         'POST',
         updatedPlaylists,
         true
@@ -115,7 +114,7 @@ const PlaylistsProvider = props => {
       const updatedPlaylists = state.filter(el => el.title !== playlistTitle);
 
       const { error } = await sendData(
-        'http://localhost:8080/user/update-playlists',
+        `${process.env.REACT_APP_BACKEND_URL}/user/update-playlists`,
         'POST',
         updatedPlaylists,
         true

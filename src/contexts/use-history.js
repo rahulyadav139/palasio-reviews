@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useFetch } from '../hooks';
 
 const HistoryContext = React.createContext();
@@ -8,37 +8,39 @@ let isHistoryReadyToUpdate = true;
 const HistoryProvider = props => {
   const { sendData } = useFetch();
   const [history, setHistory] = useState([]);
-  console.log(history);
 
-  const addToHistoryHandler = async videoData => {
-    if (isHistoryReadyToUpdate) {
-      isHistoryReadyToUpdate = false;
+  const addToHistoryHandler = useCallback(
+    async videoData => {
+      if (isHistoryReadyToUpdate) {
+        isHistoryReadyToUpdate = false;
 
-      let updatedHistory;
+        let updatedHistory;
 
-      history.findIndex(el => el._id === videoData._id) >= 0
-        ? (updatedHistory = history.map(el =>
-            el._id === videoData._id
-              ? { ...el, watchedAt: new Date().toISOString() }
-              : el
-          ))
-        : (updatedHistory = history.concat({
-            ...videoData,
-            watchedAt: new Date().toISOString(),
-          }));
+        history.findIndex(el => el._id === videoData._id) >= 0
+          ? (updatedHistory = history.map(el =>
+              el._id === videoData._id
+                ? { ...el, watchedAt: new Date().toISOString() }
+                : el
+            ))
+          : (updatedHistory = history.concat({
+              ...videoData,
+              watchedAt: new Date().toISOString(),
+            }));
 
-      const { status, data, error } = await sendData(
-        'http://localhost:8080/user/update-history',
-        'POST',
-        updatedHistory,
-        true
-      );
+        const { error } = await sendData(
+          `${process.env.REACT_APP_BACKEND_URL}/user/update-history`,
+          'POST',
+          updatedHistory,
+          true
+        );
 
-      if (!error) setHistory(updatedHistory);
+        if (!error) setHistory(updatedHistory);
 
-      isHistoryReadyToUpdate = true;
-    }
-  };
+        isHistoryReadyToUpdate = true;
+      }
+    },
+    [history, sendData]
+  );
 
   const removeFromHistoryHandler = async id => {
     if (isHistoryReadyToUpdate) {
@@ -46,8 +48,9 @@ const HistoryProvider = props => {
 
       const updatedHistory = history.filter(el => el._id !== id);
 
-      const { status, data, error } = await sendData(
-        'http://localhost:8080/user/update-history',
+      const { error } = await sendData(
+        `${process.env.REACT_APP_BACKEND_URL}/user/update-history`,
+
         'POST',
         updatedHistory,
         true
@@ -63,8 +66,9 @@ const HistoryProvider = props => {
     if (isHistoryReadyToUpdate) {
       isHistoryReadyToUpdate = false;
 
-      const { status, data, error } = await sendData(
-        'http://localhost:8080/user/update-history',
+      const { error } = await sendData(
+        `${process.env.REACT_APP_BACKEND_URL}/user/update-history`,
+
         'POST',
         [],
         true
