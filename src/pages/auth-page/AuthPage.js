@@ -1,8 +1,7 @@
+import './AuthPage.css';
 import { useState } from 'react';
-
 import { LoginForm, SignupForm } from '../../components';
 import LoginImg from '../../assets/login.png';
-import './AuthPage.css';
 
 const AuthPage = props => {
   const [isLogin, setIsLogin] = useState(true);

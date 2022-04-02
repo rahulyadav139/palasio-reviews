@@ -1,6 +1,7 @@
+import './History.css';
 import { VideoCard } from '../../components';
 import { useHistory } from '../../hooks';
-import './History.css';
+import { Link } from 'react-router-dom';
 
 const History = props => {
   const { history, clearHistory, removeFromHistory } = useHistory();
@@ -16,11 +17,25 @@ const History = props => {
           Clear History
         </button>
       </div>
-      <div className="videos-container">
-        {history.map(video => (
-          <VideoCard onDelete={deleteFromHistoryHandler} video={video} />
-        ))}
-      </div>
+      <div className="hr-line fad"></div>
+      {history.length !== 0 ? (
+        <div className="videos-container">
+          {history.map(video => (
+            <VideoCard
+              key={video._id}
+              onDelete={deleteFromHistoryHandler}
+              video={video}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="empty-history-msg">
+          <p>No videos!</p>
+          <Link to="/watch">
+            <button className="btn primary">Watch Now</button>
+          </Link>
+        </div>
+      )}
     </main>
   );
 };

@@ -3,6 +3,7 @@ import { VideoCard, PlaylistModal } from '../../components';
 import { Fragment, useState, useEffect, useRef } from 'react';
 import { useFetch, useAuth, useHistory } from '../../hooks';
 import { useParams, useNavigate } from 'react-router-dom';
+import { v4 as uuid } from 'uuid';
 import { dateFormatter, numberFormatter, timeDifferenceFun } from '../../utils';
 
 let isReadyToUpdate = true;
@@ -215,7 +216,7 @@ const SingleVideoPage = props => {
                 )}
                 <ul className="flex col gap">
                   {currentVideo.comments?.map(el => (
-                    <li className="flex gap">
+                    <li key={uuid()} className="flex gap">
                       <div className="avatar small">{el?.user[0]}</div>
                       <div>
                         <div className="flex gap">

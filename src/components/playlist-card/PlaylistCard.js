@@ -19,7 +19,7 @@ const PlaylistCard = ({ title, numOfVideos }) => {
         onClick={deletePlaylist.bind(null, title)}
         className="icon small btn primary"
       >
-        <i class="fas fa-trash"></i>
+        <i className="fas fa-trash"></i>
       </button>
     </div>
   );

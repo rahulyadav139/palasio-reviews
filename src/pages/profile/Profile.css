@@ -11,6 +11,13 @@
   flex-direction: column;
   gap: 1rem;
 }
+.profile-items p {
+  font-weight: bold;
+}
+.profile-items p::first-letter {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+}
 
 @media only screen and (max-width: 450px) {
   .main-profile-page {

@@ -11,6 +11,18 @@
   margin-top: 2rem;
 }
 
+.empty-history-msg {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.empty-history-msg p {
+  margin-top: 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 450px) {
   .videos-container {
     display: grid;

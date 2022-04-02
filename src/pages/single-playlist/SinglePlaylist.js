@@ -1,6 +1,6 @@
 import './SinglePlaylist.css';
 import { VideoCard } from '../../components';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { usePlaylists } from '../../hooks';
 import { textFormatter } from '../../utils';
 
@@ -35,11 +35,25 @@ const SinglePlaylist = props => {
           Delete Playlist
         </button>
       </div>
-      <div className="videos-container">
-        {currentPlaylist.videos.map(video => (
-          <VideoCard onDelete={deleteFromPlaylistHandler} video={video} />
-        ))}
-      </div>
+      <div className="hr-line fad"></div>
+      {currentPlaylist.videos.length !== 0 ? (
+        <div className="videos-container">
+          {currentPlaylist.videos.map(video => (
+            <VideoCard
+              key={video._id}
+              onDelete={deleteFromPlaylistHandler}
+              video={video}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="empty-playlist-msg">
+          <p>Empty playlist!</p>
+          <Link to="/watch">
+            <button className="btn primary">Watch Now</button>
+          </Link>
+        </div>
+      )}
     </main>
   );
 };

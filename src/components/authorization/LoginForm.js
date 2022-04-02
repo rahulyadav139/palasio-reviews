@@ -92,7 +92,29 @@ const LoginForm = props => {
     getPlaylistsData(data.playlists);
     getHistory(data.history);
 
-    console.log(navigate(-1));
+    navigate(-1);
+  };
+
+  const guestLoginHandler = async () => {
+    const { data, error } = await sendData(
+      `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
+      'POST',
+      {
+        email: process.env.REACT_APP_GUEST_LOGIN_USERNAME,
+        password: process.env.REACT_APP_GUEST_LOGIN_PASSWORD,
+      },
+      false
+    );
+
+    if (error) return setToast('Something went wrong!');
+
+    loginHandler({
+      token: data.token,
+      userId: data.userId,
+      username: data.username,
+    });
+    getPlaylistsData(data.playlists);
+    getHistory(data.history);
 
     navigate(-1);
   };
@@ -139,6 +161,13 @@ const LoginForm = props => {
 
       <button type="submit" className="btn primary">
         Login
+      </button>
+      <button
+        onClick={guestLoginHandler}
+        type="button"
+        className="btn outline primary btn-guest-login"
+      >
+        Guest Login
       </button>
       <p className="switch__msg">
         Already a member?{' '}
