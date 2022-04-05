@@ -1,12 +1,13 @@
 import './SinglePlaylist.css';
 import { VideoCard } from '../../components';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { usePlaylists } from '../../hooks';
+import { usePlaylists, useToast } from '../../hooks';
 import { textFormatter } from '../../utils';
 
 const SinglePlaylist = props => {
   const navigate = useNavigate();
   const params = useParams();
+  const { setToast } = useToast();
   const playlistTitle = params.playlistName;
   const { playlists, removeFromPlaylist, deletePlaylist } = usePlaylists();
 
@@ -21,7 +22,14 @@ const SinglePlaylist = props => {
 
   const deletePlaylistHandler = () => {
     deletePlaylist(playlistTitle);
-    navigate('/profile');
+    navigate('/playlists');
+    setToast({
+      status: true,
+      type: 'success',
+      message: `"${textFormatter(
+        playlistTitle
+      )}" playlist deleted successfully!`,
+    });
   };
 
   return (

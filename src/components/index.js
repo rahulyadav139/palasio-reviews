@@ -7,3 +7,4 @@ export { PlaylistModal } from './playlist-modal/PlaylistModal';
 export { Loading } from './ui/Loading';
 export { Modal } from './ui/modal/Modal';
 export { CreatePlaylist } from './create-playlist/CreatePlaylist';
+export { Toast } from './ui/Toast';

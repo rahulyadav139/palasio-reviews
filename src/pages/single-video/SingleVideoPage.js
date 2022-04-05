@@ -1,7 +1,7 @@
 import './SingleVideoPage.css';
 import { VideoCard, PlaylistModal } from '../../components';
 import { Fragment, useState, useEffect, useRef } from 'react';
-import { useFetch, useAuth, useHistory } from '../../hooks';
+import { useFetch, useAuth, useHistory, useLikedVideos } from '../../hooks';
 import { useParams, useNavigate } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import { dateFormatter, numberFormatter, timeDifferenceFun } from '../../utils';
@@ -12,6 +12,7 @@ let isReadyToComment = true;
 const SingleVideoPage = props => {
   const { userId, isAuth, username } = useAuth();
   const { addToHistory } = useHistory();
+  const { addToLikedVideos, removeFromLikedVideos } = useLikedVideos();
   const [videos, setVideos] = useState([]);
   const [currentVideo, setCurrentVideo] = useState('');
   const [enableComment, setEnableComment] = useState(false);
@@ -69,6 +70,7 @@ const SingleVideoPage = props => {
 
       if (e.target.checked) {
         if (type === 'like') {
+          addToLikedVideos(currentVideo);
           updatedLiked.push(userId);
           updatedDisliked = updatedDisliked.filter(el => el !== userId);
         } else {
@@ -76,9 +78,12 @@ const SingleVideoPage = props => {
           updatedDisliked.push(userId);
         }
       } else {
-        type === 'like'
-          ? (updatedLiked = updatedLiked.filter(el => el !== userId))
-          : (updatedDisliked = updatedDisliked.filter(el => el !== userId));
+        if (type === 'like') {
+          removeFromLikedVideos(currentVideo._id);
+          updatedLiked = updatedLiked.filter(el => el !== userId);
+        } else {
+          updatedDisliked = updatedDisliked.filter(el => el !== userId);
+        }
       }
 
       const { error } = await sendData(

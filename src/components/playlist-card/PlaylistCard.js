@@ -1,10 +1,21 @@
 import './PlaylistCard.css';
 import { textFormatter } from '../../utils';
-import { usePlaylists } from '../../hooks';
+import { usePlaylists, useToast } from '../../hooks';
 import { Link } from 'react-router-dom';
 
 const PlaylistCard = ({ title, numOfVideos }) => {
   const { deletePlaylist } = usePlaylists();
+  const { setToast } = useToast();
+
+  const deletePlaylistHandler = title => {
+    deletePlaylist(title);
+
+    setToast({
+      status: true,
+      type: 'loading',
+      message: `"${textFormatter(title)} playlist deleted!"`,
+    });
+  };
   return (
     <div className="playlist-card shadow">
       <Link to={`/playlist/${title}`}>
@@ -16,7 +27,7 @@ const PlaylistCard = ({ title, numOfVideos }) => {
         </div>
       </Link>
       <button
-        onClick={deletePlaylist.bind(null, title)}
+        onClick={deletePlaylistHandler.bind(null, title)}
         className="icon small btn primary"
       >
         <i className="fas fa-trash"></i>

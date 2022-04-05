@@ -1,19 +1,33 @@
 import './History.css';
 import { VideoCard } from '../../components';
-import { useHistory } from '../../hooks';
+import { useHistory, useToast } from '../../hooks';
 import { Link } from 'react-router-dom';
 
 const History = props => {
   const { history, clearHistory, removeFromHistory } = useHistory();
+  const { setToast } = useToast();
 
   const deleteFromHistoryHandler = id => {
     removeFromHistory(id);
+  };
+
+  const clearHistoryHandler = () => {
+    clearHistory();
+
+    setToast({
+      type: 'success',
+      status: true,
+      message: 'History cleared!',
+    });
   };
   return (
     <main className="main-history">
       <div className="flex space-between align-center">
         <h1>History</h1>
-        <button onClick={clearHistory} className="btn error rounded-edge">
+        <button
+          onClick={clearHistoryHandler}
+          className="btn error rounded-edge"
+        >
           Clear History
         </button>
       </div>

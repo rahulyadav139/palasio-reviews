@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useRef } from 'react';
 import './PlaylistModal.css';
-import { usePlaylists } from '../../hooks';
+import { usePlaylists, useToast } from '../../hooks';
 import { textFormatter } from '../../utils';
 import { v4 as uuid } from 'uuid';
 import { Modal } from '../ui/modal/Modal';
@@ -10,20 +10,33 @@ const PlaylistModal = props => {
   const [wantNewPlaylist, setWantNewPlaylist] = useState(false);
   const { playlists, createNewPlaylist, addToPlaylist, removeFromPlaylist } =
     usePlaylists();
+  const { setToast } = useToast();
 
   const newPlaylistRef = useRef();
 
   const createNewPlaylistHandler = async () => {
     const newPlaylist = newPlaylistRef.current.value.toLowerCase();
 
-    if (!newPlaylist) return;
+    if (!newPlaylist)
+      return setToast({
+        status: true,
+        type: 'danger',
+        message: 'Invalid playlist name!',
+      });
 
     const error = await createNewPlaylist({
       title: newPlaylist,
       videos: [props.video],
     });
 
-    if (!error) setWantNewPlaylist(false);
+    if (!error) {
+      setWantNewPlaylist(false);
+      setToast({
+        status: true,
+        type: 'success',
+        message: `New playlist "${textFormatter(newPlaylist)}" is created!`,
+      });
+    }
   };
 
   const playlistHandler = e => {
@@ -60,15 +73,14 @@ const PlaylistModal = props => {
           ))}
         </ul>
         <div className="hr-line solid thin"></div>
-        {!wantNewPlaylist && (
+        {!wantNewPlaylist ? (
           <button
             className="btn-create-playlist"
             onClick={() => setWantNewPlaylist(true)}
           >
             + Create new playlist
           </button>
-        )}
-        {wantNewPlaylist && (
+        ) : (
           <div className="create-new-playlist-actions">
             <input
               ref={newPlaylistRef}

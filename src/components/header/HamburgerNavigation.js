@@ -5,7 +5,7 @@ import { useAuth } from '../../hooks';
 
 const HamburgerNavigation = props => {
   const [isHamburgerNav, setIsHamburgerNav] = useState(false);
-  const { isAuth, logoutHandler } = useAuth();
+  const { isAuth, logoutHandler, username } = useAuth();
   const navigate = useNavigate();
 
   const backdropClasses = isHamburgerNav
@@ -24,6 +24,12 @@ const HamburgerNavigation = props => {
   const userLoginHandler = () => {
     setIsHamburgerNav(false);
     navigate('/auth');
+  };
+
+  const navigateToPrivateRouteHandler = path => {
+    setIsHamburgerNav(false);
+
+    isAuth ? navigate(path) : navigate('/auth');
   };
   return (
     <Fragment>
@@ -47,6 +53,10 @@ const HamburgerNavigation = props => {
           </div>
         </Link>
         <div className="hr-line fad"></div>
+        <h3 className="heading-5">
+          {!isAuth ? 'Hello' : `Welcome, ${username}`}
+        </h3>
+        <div className="hr-line fad"></div>
         <ul className="hamburger-menu__items">
           <Link to="/">
             <li
@@ -64,16 +74,34 @@ const HamburgerNavigation = props => {
               Explore
             </li>
           </Link>
-          {isAuth && (
-            <Link to="/profile">
-              <li
-                onClick={() => setIsHamburgerNav(false)}
-                className="hamburger-menu__item"
-              >
-                My Profile
-              </li>
-            </Link>
-          )}
+
+          <li
+            onClick={navigateToPrivateRouteHandler.bind(null, '/watch-later')}
+            className="hamburger-menu__item"
+          >
+            Watch Later
+          </li>
+
+          <li
+            onClick={navigateToPrivateRouteHandler.bind(null, '/playlists')}
+            className="hamburger-menu__item"
+          >
+            Playlists
+          </li>
+
+          <li
+            onClick={navigateToPrivateRouteHandler.bind(null, '/liked-videos')}
+            className="hamburger-menu__item"
+          >
+            Liked
+          </li>
+
+          <li
+            onClick={navigateToPrivateRouteHandler.bind(null, '/history')}
+            className="hamburger-menu__item"
+          >
+            History
+          </li>
         </ul>
         <div className="btn-container">
           {isAuth ? (

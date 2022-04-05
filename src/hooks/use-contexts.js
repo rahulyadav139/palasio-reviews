@@ -4,6 +4,8 @@ import {
   PlaylistsContext,
   HistoryContext,
   LoadingContext,
+  LikedVideosContext,
+  ToastContext,
 } from '../contexts';
 
 const useAuth = () => useContext(AuthContext);
@@ -14,4 +16,15 @@ const useHistory = () => useContext(HistoryContext);
 
 const useLoading = () => useContext(LoadingContext);
 
-export { useAuth, usePlaylists, useHistory, useLoading };
+const useLikedVideos = () => useContext(LikedVideosContext);
+
+const useToast = () => useContext(ToastContext);
+
+export {
+  useAuth,
+  usePlaylists,
+  useHistory,
+  useLoading,
+  useLikedVideos,
+  useToast,
+};
