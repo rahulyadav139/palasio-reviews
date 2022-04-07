@@ -1,6 +1,9 @@
 import './Navigation.css';
+import { useAuth } from '../../hooks';
+import { Link } from 'react-router-dom';
 
 const Navigation = props => {
+  const { isAuth } = useAuth();
   return (
     <nav>
       <ul className="list-items">
@@ -20,18 +23,24 @@ const Navigation = props => {
           </div>
         </li>
 
-        <li className="profile-item list-item">
-          <div className="avatar small">
-            <img
-              src="https://i.picsum.photos/id/704/536/354.jpg?hmac=k_PDx86tD-ILOtsUOKY9t5LAL5ycKiQ4ryVdlxhWoek"
-              alt="sample"
-            />
-          </div>
-        </li>
+        {isAuth && (
+          <li className="profile-item list-item">
+            <div className="avatar small">
+              <img
+                src="https://i.picsum.photos/id/704/536/354.jpg?hmac=k_PDx86tD-ILOtsUOKY9t5LAL5ycKiQ4ryVdlxhWoek"
+                alt="sample"
+              />
+            </div>
+          </li>
+        )}
 
-        <li className="login-item">
-          <button className="btn-login btn primary text-bold">Login</button>
-        </li>
+        {!isAuth && (
+          <li className="login-item">
+            <Link to="/auth">
+              <button className="btn-login btn primary text-bold">Login</button>
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

@@ -13,7 +13,6 @@ const LibraryPage = props => {
           <li className="category">SUV</li>
           <li className="category">MUV</li>
           <li className="category">Luxury</li>
-          <li className="category">More</li>
         </ul>
       </div>
       <div className="video-cards-wrapper">

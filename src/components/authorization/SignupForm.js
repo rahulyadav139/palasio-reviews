@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import { useInput } from '../../hooks';
+import { useInput, useFetch, useAuth } from '../../hooks';
+import { textFormatter } from '../../utils';
+import { useNavigate } from 'react-router-dom';
 import './AuthForm.css';
 
 const SignupForm = props => {
+  const { sendData } = useFetch();
+  const { loginHandler } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordValidity, setPasswordValidity] = useState(false);
+  const [toast, setToast] = useState(false);
+  const navigate = useNavigate();
   const {
     value: firstName,
     setIsTouched: firstNameIsTouched,
@@ -75,8 +81,56 @@ const SignupForm = props => {
     setShowConfirmPassword(prev => !prev);
   };
 
+  const submitHandler = async e => {
+    e.preventDefault();
+
+    if (
+      !firstNameIsValid ||
+      !lastNameIsValid ||
+      !emailIsValid ||
+      !passwordIsValid ||
+      !confirmPasswordIsValid
+    ) {
+      firstNameIsTouched(true);
+      lastNameIsTouched(true);
+      emailIsTouched(true);
+      passwordIsTouched(true);
+      confirmPasswordIsTouched(true);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      console.log("password doesn't match");
+      return;
+    }
+
+    const userData = {
+      fullName: textFormatter(`${firstName} ${lastName}`),
+      email,
+      password,
+    };
+
+    const { data, error, status } = await sendData(
+      'http://localhost:8080/auth/signup',
+      'PUT',
+      userData,
+      false
+    );
+
+    if (error) return;
+
+    if (status === 409) {
+      setToast('User is already registered!');
+      return;
+    }
+
+    loginHandler(data.token);
+
+    navigate('/watch');
+  };
+
   return (
-    <form className="auth-form shadow">
+    <form onSubmit={submitHandler} className="auth-form shadow">
       <div className="heading-5 text-center text-primary-dark">
         Create Your Account
       </div>
@@ -172,7 +226,10 @@ const SignupForm = props => {
         Signup
       </button>
       <p className="switch__msg">
-        Already a member? <span className="switch__method">Login here</span>
+        Already a member?{' '}
+        <span onClick={props.onSwitch} className="switch__method">
+          Login here
+        </span>
       </p>
     </form>
   );
