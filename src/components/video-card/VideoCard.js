@@ -1,26 +1,31 @@
 import './VideoCard.css';
+import { Link } from 'react-router-dom';
 
-const VideoCard = ({dismissBtn}) => {
+const VideoCard = props => {
+  const dismissBtn = props.dismissBtn;
+  const { title, author, thumbnail, _id } = props.video;
+
   return (
     <div className="video-card shadow">
-      <div className="video-card__image">
-        <img
-          className="img-responsive"
-          src="https://i.picsum.photos/id/68/536/354.jpg?hmac=1HfgJb31lF-wUi81l2uZsAMfntViiCV9z5_ntQvW3Ks"
-        />
-      </div>
+      <Link to={`/watch/${_id}`}>
+        <div className="video-card__image">
+          <img className="img-responsive" src={thumbnail} alt={_id} />
+        </div>
+      </Link>
       <div className="video-card__details">
-        <p className="heading-6">SEN Sintara Leaks his Team</p>
-        <p className="text-small">Sintara</p>
+        <p className="heading-6 title">{title.substring(0, 22)}</p>
+        <p className="text-small">{author}</p>
         <div className="video-card__views">
           <p className="text-small">6K Views</p>
           <span className="text-small">|</span>
           <p className="text-small">13 Hours ago</p>
         </div>
       </div>
-     {dismissBtn && <button className="icon small btn-dismiss">
-        <i class="fas fa-trash"></i>
-      </button>}
+      {dismissBtn && (
+        <button className="icon small btn-dismiss">
+          <i class="fas fa-trash"></i>
+        </button>
+      )}
     </div>
   );
 };

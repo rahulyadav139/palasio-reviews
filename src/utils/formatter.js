@@ -7,4 +7,14 @@ const textFormatter = str => {
 
   return formattedStr;
 };
-export { textFormatter };
+
+const dateFormatter = date => {
+  const formattedDate = new Date(date).toLocaleString('en-IN', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+
+  return formattedDate;
+};
+export { textFormatter, dateFormatter };

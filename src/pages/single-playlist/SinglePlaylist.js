@@ -1,8 +1,22 @@
-import { Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import './SinglePlaylist.css';
-import { Header, VideoCard } from '../../components';
+import { VideoCard } from '../../components';
+import { useFetch } from '../../hooks';
+import { dateFormatter } from '../../utils';
 
 const SinglePlaylist = props => {
+  const [videos, setVideos] = useState([]);
+  const { getData } = useFetch();
+
+  useEffect(() => {
+    (async () => {
+      const { data, error, status } = await getData(
+        'http://localhost:8080/videos',
+        false
+      );
+      setVideos(data);
+    })();
+  }, [getData]);
   return (
     <main className="main-single-playlist">
       <div className="flex space-between align-center">
@@ -10,8 +24,8 @@ const SinglePlaylist = props => {
         <button className="btn error rounded-edge">Delete Playlist</button>
       </div>
       <div className="videos-container">
-        {Array.from({ length: 4 }).map(el => (
-          <VideoCard dismissBtn={true} />
+        {videos.map(video => (
+          <VideoCard dismissBtn={true} video={video} />
         ))}
       </div>
     </main>

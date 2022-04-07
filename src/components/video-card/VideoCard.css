@@ -6,6 +6,7 @@
 }
 
 .video-card__image img {
+  width: 100%;
   aspect-ratio: 16/9;
 }
 .video-card__views {
@@ -26,4 +27,8 @@
   padding: 0.5rem;
   border-radius: 0.2rem;
   cursor: pointer;
+}
+
+.video-card .title {
+  text-overflow: ellipsis;
 }
