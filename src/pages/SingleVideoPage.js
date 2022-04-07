@@ -21,7 +21,7 @@ const SingleVideoPage = props => {
         </div>
         <div className="suggestions-container">
           {Array.from({ length: 5 }).map(el => (
-            <VideoCard />
+            <VideoCard dismissBtn={false} />
           ))}
         </div>
         <div className="video-details">
@@ -44,7 +44,7 @@ const SingleVideoPage = props => {
                 <i className="fas fa-share-alt"></i> Share
               </span>
               <span>
-                <i className="far fa-bookmark"></i> Save
+                <i className="far fa-bookmark"></i> Add to playlist
               </span>
             </div>
           </div>

@@ -5,6 +5,8 @@ import {
   LibraryPage,
   SingleVideoPage,
   Profile,
+  Playlists,
+  SinglePlaylist,
 } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import { VideoCard } from './components';
@@ -19,6 +21,8 @@ function App() {
         <Route path="/watch" element={<LibraryPage />} />
         <Route path="/watch/:videoId" element={<SingleVideoPage />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/playlists" element={<Playlists />} />
+        <Route path="/playlist/:playlistName" element={<SinglePlaylist />} />
       </Routes>
     </div>
   );
