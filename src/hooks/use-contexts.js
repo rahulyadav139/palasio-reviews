@@ -1,6 +1,8 @@
 import { useContext } from 'react';
-import { AuthContext } from '../contexts';
+import { AuthContext, PlaylistsContext } from '../contexts';
 
 const useAuth = () => useContext(AuthContext);
 
-export { useAuth };
+const usePlaylists = () => useContext(PlaylistsContext);
+
+export { useAuth, usePlaylists };

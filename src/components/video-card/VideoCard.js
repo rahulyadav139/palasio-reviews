@@ -2,7 +2,7 @@ import './VideoCard.css';
 import { Link } from 'react-router-dom';
 
 const VideoCard = props => {
-  const dismissBtn = props.dismissBtn;
+  const deleteFun = props.onDelete;
   const { title, author, thumbnail, _id } = props.video;
 
   return (
@@ -21,8 +21,11 @@ const VideoCard = props => {
           <p className="text-small">13 Hours ago</p>
         </div>
       </div>
-      {dismissBtn && (
-        <button className="icon small btn-dismiss">
+      {deleteFun && (
+        <button
+          onClick={() => deleteFun(_id)}
+          className="icon small btn-dismiss"
+        >
           <i class="fas fa-trash"></i>
         </button>
       )}

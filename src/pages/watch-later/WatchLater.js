@@ -1,15 +1,26 @@
-import { Fragment } from 'react';
-import { Header, VideoCard } from '../../components';
+import { VideoCard } from '../../components';
 import './WatchLater.css';
+import { usePlaylists } from '../../hooks';
 
 const WatchLater = props => {
+  const { removeFromPlaylist } = usePlaylists();
+  const { playlists } = usePlaylists();
+
+  const deleteFromPlaylistHandler = videoId => {
+    removeFromPlaylist({
+      playlistTitle: 'watch later',
+      videoId,
+    });
+  };
   return (
     <main className="main-watch-later">
       <h1>Watch Later</h1>
       <div className="videos-container">
-        {Array.from({ length: 5 }).map(el => (
-          <VideoCard dismissBtn={true} />
-        ))}
+        {playlists
+          .filter(el => el.title === 'watch later')[0]
+          .videos.map(video => (
+            <VideoCard onDelete={deleteFromPlaylistHandler} video={video} />
+          ))}
       </div>
     </main>
   );

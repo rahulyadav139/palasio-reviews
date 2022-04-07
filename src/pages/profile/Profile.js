@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 import './Profile.css';
-import { Header } from '../../components';
+import { Link } from 'react-router-dom';
 
 const Profile = props => {
   return (
@@ -16,8 +16,12 @@ const Profile = props => {
           <h1>Rahul Yadav</h1>
         </div>
         <div className="profile-items">
-          <p>Watch Later</p>
-          <p>My Playlists</p>
+          <Link to="/watch-later">
+            <p>Watch Later</p>
+          </Link>
+          <Link to="/playlists">
+            <p>My Playlists</p>
+          </Link>
           <p>History</p>
           <button className="btn outline primary">Logout</button>
         </div>

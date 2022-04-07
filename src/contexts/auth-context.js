@@ -5,15 +5,16 @@ const AuthContext = React.createContext();
 const defaultState = {
   isAuth: false,
   token: '',
+  userId: '',
 };
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case 'LOGIN':
-      return { isAuth: true, token: action.token };
+      return { isAuth: true, token: action.token, userId: action.userId };
 
     case 'LOGOUT':
-      return { isAuth: false, token: '' };
+      return { isAuth: false, token: '', userId: '' };
 
     default:
       return defaultState;
@@ -23,8 +24,8 @@ const authReducer = (state, action) => {
 const AuthProvider = props => {
   const [state, dispatch] = useReducer(authReducer, defaultState);
 
-  const loginHandler = token => {
-    dispatch({ type: 'LOGIN', token });
+  const loginHandler = ({ token, userId }) => {
+    dispatch({ type: 'LOGIN', token, userId });
   };
 
   const logoutHandler = () => {
@@ -34,6 +35,7 @@ const AuthProvider = props => {
   const defaultValues = {
     isAuth: state.isAuth,
     token: state.token,
+    userId: state.userId,
     loginHandler,
     logoutHandler,
   };

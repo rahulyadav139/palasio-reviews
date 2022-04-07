@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useInput, useFetch, useAuth } from '../../hooks';
+import { useInput, useFetch, useAuth, usePlaylists } from '../../hooks';
 import { textFormatter } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 import './AuthForm.css';
@@ -12,6 +12,7 @@ const SignupForm = props => {
   const [passwordValidity, setPasswordValidity] = useState(false);
   const [toast, setToast] = useState(false);
   const navigate = useNavigate();
+  const { getPlaylistsData } = usePlaylists();
   const {
     value: firstName,
     setIsTouched: firstNameIsTouched,
@@ -124,9 +125,11 @@ const SignupForm = props => {
       return;
     }
 
-    loginHandler(data.token);
+    loginHandler({ token: data.token, userId: data.userId });
 
-    navigate('/watch');
+    getPlaylistsData(data.playlists);
+
+    navigate(-1);
   };
 
   return (
