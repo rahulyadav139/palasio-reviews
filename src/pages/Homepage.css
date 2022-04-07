@@ -1,0 +1,12 @@
+.main-homepage {
+  padding: 1rem;
+}
+
+.image-homepage {
+  height: 70vh;
+  width: 100%;
+}
+
+.image-homepage img {
+  width: 100%;
+}
