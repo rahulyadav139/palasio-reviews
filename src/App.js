@@ -7,6 +7,7 @@ import {
   Profile,
   Playlists,
   SinglePlaylist,
+  History,
 } from './pages';
 import { Routes, Route } from 'react-router-dom';
 import { VideoCard } from './components';
@@ -23,6 +24,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/playlists" element={<Playlists />} />
         <Route path="/playlist/:playlistName" element={<SinglePlaylist />} />
+        <Route path="/history" element={<History />} />
       </Routes>
     </div>
   );

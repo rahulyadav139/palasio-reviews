@@ -5,3 +5,4 @@ export { SingleVideoPage } from './SingleVideoPage';
 export { Profile } from './Profile';
 export { Playlists } from './Playlists';
 export { SinglePlaylist } from './SinglePlaylist';
+export { History } from './History';
