@@ -10,7 +10,7 @@ import {
   History,
   WatchLater,
 } from './pages';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { Header } from './components';
 import { useAuth } from './hooks';
 
@@ -31,7 +31,7 @@ function App() {
         )}
         {isAuth && <Route path="/history" element={<History />} />}
         {isAuth && <Route path="/watch-later" element={<WatchLater />} />}
-        <Route path="*" element={<Homepage />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </div>
   );

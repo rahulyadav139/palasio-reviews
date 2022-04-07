@@ -1,12 +1,15 @@
 import './SingleVideoPage.css';
 import { VideoCard, PlaylistModal } from '../../components';
 import { Fragment, useState, useEffect } from 'react';
-import { useFetch, useAuth } from '../../hooks';
+import { useFetch, useAuth, useHistory } from '../../hooks';
 import { useParams, useNavigate } from 'react-router-dom';
 import { dateFormatter, numberFormatter } from '../../utils';
 
+let isReadyToUpdate = true;
+
 const SingleVideoPage = props => {
   const { userId, isAuth } = useAuth();
+  const { addToHistory } = useHistory();
   const [videos, setVideos] = useState([]);
   const [currentVideo, setCurrentVideo] = useState('');
   const [enableComment, setEnableComment] = useState(false);
@@ -16,8 +19,9 @@ const SingleVideoPage = props => {
   const navigate = useNavigate();
   const id = params.videoId;
 
-  let isLikedReady = true;
-  let isDislikedReady = true;
+  useEffect(() => {
+    if (currentVideo) return addToHistory(currentVideo);
+  }, [currentVideo]);
 
   useEffect(() => {
     (async () => {
@@ -48,61 +52,45 @@ const SingleVideoPage = props => {
     setIsModal(true);
   };
 
-  const likedHandler = async e => {
+  const likedDislikedHandler = async (type, e) => {
     if (!isAuth) return navigate('/auth');
 
-    if (isLikedReady) {
-      isLikedReady = false;
+    if (isReadyToUpdate) {
+      isReadyToUpdate = false;
 
-      let likedArr = currentVideo.liked.slice();
+      let updatedLiked = currentVideo.liked.slice();
+      let updatedDisliked = currentVideo.disliked.slice();
 
       if (e.target.checked) {
-        likedArr.push(userId);
+        if (type === 'like') {
+          updatedLiked.push(userId);
+          updatedDisliked = updatedDisliked.filter(el => el !== userId);
+        } else {
+          updatedLiked = updatedLiked.filter(el => el !== userId);
+          updatedDisliked.push(userId);
+        }
       } else {
-        likedArr = likedArr.filter(el => el !== userId);
+        type === 'like'
+          ? (updatedLiked = updatedLiked.filter(el => el !== userId))
+          : (updatedDisliked = updatedDisliked.filter(el => el !== userId));
       }
 
       const { data, error, status } = await sendData(
-        'http://localhost:8080/videos/liked',
+        'http://localhost:8080/videos/liked-disliked',
         'POST',
-        { _id: id, likedArr },
+        { _id: id, updatedLiked, updatedDisliked },
         true
       );
 
       if (error) return;
 
-      setCurrentVideo(prev => ({ ...prev, liked: likedArr }));
+      setCurrentVideo(prev => ({
+        ...prev,
+        liked: updatedLiked,
+        disliked: updatedDisliked,
+      }));
 
-      isLikedReady = true;
-    }
-  };
-
-  const dislikedHandler = async e => {
-    if (!isAuth) return navigate('/auth');
-
-    if (isDislikedReady) {
-      isDislikedReady = false;
-
-      let dislikedArr = currentVideo.disliked.slice();
-
-      if (e.target.checked) {
-        dislikedArr.push(userId);
-      } else {
-        dislikedArr = dislikedArr.filter(el => el !== userId);
-      }
-
-      const { data, error, status } = await sendData(
-        'http://localhost:8080/videos/disliked',
-        'POST',
-        { _id: id, dislikedArr },
-        true
-      );
-
-      if (error) return;
-
-      setCurrentVideo(prev => ({ ...prev, disliked: dislikedArr }));
-
-      isDislikedReady = true;
+      isReadyToUpdate = true;
     }
   };
 
@@ -114,17 +102,17 @@ const SingleVideoPage = props => {
             <iframe
               width="100%"
               height="100%"
-              src={`https://www.youtube.com/embed/${currentVideo.videoId}`}
+              src={`https://www.youtube.com/embed/${currentVideo.videoId}?autoplay=1`}
               title="YouTube video player"
               frameborder="0"
-              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
           </div>
         )}
         <div className="suggestions-container">
           {videos.map(video => (
-            <VideoCard video={video} />
+            <VideoCard video={video} wantWatchLaterButton={true} />
           ))}
         </div>
         <div className="video-details">
@@ -136,7 +124,7 @@ const SingleVideoPage = props => {
             </div>
             <div className="video-actions flex gap ">
               <input
-                onChange={likedHandler}
+                onChange={likedDislikedHandler.bind(null, 'like')}
                 type="checkbox"
                 id="liked"
                 checked={currentVideo.liked?.includes(userId)}
@@ -150,7 +138,7 @@ const SingleVideoPage = props => {
                 {` ${numberFormatter(currentVideo.liked?.length)}`}
               </label>
               <input
-                onChange={dislikedHandler}
+                onChange={likedDislikedHandler.bind(null, 'dislike')}
                 type="checkbox"
                 id="disliked"
                 checked={currentVideo.disliked?.includes(userId)}

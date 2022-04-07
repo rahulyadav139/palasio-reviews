@@ -17,16 +17,24 @@
 .video-card__details {
   padding: 0.3rem;
 }
-.btn-dismiss {
+.btn-right-top {
   position: absolute;
   margin: 0.5rem;
   top: 0;
   right: 0;
-  color: var(--red-color);
+
   background: var(--off-white-color);
   padding: 0.5rem;
   border-radius: 0.2rem;
   cursor: pointer;
+}
+
+.btn-delete {
+  color: var(--red-color);
+}
+
+.btn-watch-later {
+  color: var(--primary-color);
 }
 
 .video-card .title {

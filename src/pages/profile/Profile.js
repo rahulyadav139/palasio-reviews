@@ -1,8 +1,16 @@
 import { Fragment } from 'react';
 import './Profile.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks';
 
 const Profile = props => {
+  const navigate = useNavigate();
+  const { logoutHandler } = useAuth();
+
+  const userLogoutHandler = () => {
+    logoutHandler();
+    navigate('/watch');
+  };
   return (
     <Fragment>
       <main className="main-profile-page">
@@ -22,8 +30,12 @@ const Profile = props => {
           <Link to="/playlists">
             <p>My Playlists</p>
           </Link>
-          <p>History</p>
-          <button className="btn outline primary">Logout</button>
+          <Link to="/history">
+            <p>History</p>
+          </Link>
+          <button onClick={userLogoutHandler} className="btn outline primary">
+            Logout
+          </button>
         </div>
       </main>
       <div className="hr-line fad"></div>

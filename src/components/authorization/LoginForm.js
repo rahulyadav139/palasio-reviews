@@ -1,11 +1,18 @@
 import './AuthForm.css';
-import { useInput, useFetch, useAuth, usePlaylists } from '../../hooks';
+import {
+  useInput,
+  useFetch,
+  useAuth,
+  usePlaylists,
+  useHistory,
+} from '../../hooks';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = props => {
   const { sendData } = useFetch();
   const { loginHandler } = useAuth();
+  const { getHistory } = useHistory();
   const navigate = useNavigate();
   const { getPlaylistsData } = usePlaylists();
   const [showPassword, setShowPassword] = useState(false);
@@ -67,6 +74,7 @@ const LoginForm = props => {
 
     loginHandler({ token: data.token, userId: data.userId });
     getPlaylistsData(data.playlists);
+    getHistory(data.history);
 
     navigate(-1);
   };
