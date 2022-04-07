@@ -27,29 +27,10 @@ const Navigation = props => {
   return (
     <nav>
       <ul className="list-items">
-        <li>
-          <div className="theme-toggle">
-            <input
-              type="checkbox"
-              className="theme-toggle__checkbox"
-              id="theme-toggle"
-              onChange={themeHandler}
-              checked={'dark' === theme}
-            />
-            <label className="theme-toggle__label" htmlFor="theme-toggle">
-              <span className="icon medium primary">
-                <i
-                  className={theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'}
-                ></i>
-              </span>
-            </label>
-          </div>
-        </li>
-
         <li title="Explore Videos" className=" list-item">
           <Link to="/watch">
             <button className="btn-login btn icon medium primary text-bold">
-              <i className="fas fa-video"></i>
+              <i class="fas fa-play-circle"></i>
             </button>
           </Link>
         </li>
@@ -84,6 +65,25 @@ const Navigation = props => {
               <i className="fas fa-history"></i>
             </button>
           </Link>
+        </li>
+
+        <li>
+          <div className="theme-toggle">
+            <input
+              type="checkbox"
+              className="theme-toggle__checkbox"
+              id="theme-toggle"
+              onChange={themeHandler}
+              checked={'dark' === theme}
+            />
+            <label className="theme-toggle__label" htmlFor="theme-toggle">
+              <span className="icon medium primary">
+                <i
+                  className={theme === 'light' ? 'fas fa-moon' : 'fas fa-sun'}
+                ></i>
+              </span>
+            </label>
+          </div>
         </li>
 
         <li title={isAuth ? 'Logout' : 'Login'} className="login-item">
