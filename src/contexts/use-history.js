@@ -8,7 +8,6 @@ let isHistoryReadyToUpdate = true;
 const HistoryProvider = props => {
   const { sendData } = useFetch();
   const [history, setHistory] = useState([]);
-  console.log(history);
 
   const addToHistoryHandler = async videoData => {
     if (isHistoryReadyToUpdate) {
@@ -27,8 +26,8 @@ const HistoryProvider = props => {
             watchedAt: new Date().toISOString(),
           }));
 
-      const { status, data, error } = await sendData(
-        'http://localhost:8080/user/update-history',
+      const { error } = await sendData(
+        `${process.env.REACT_APP_BACKEND_URL}/user/update-history`,
         'POST',
         updatedHistory,
         true
@@ -46,8 +45,9 @@ const HistoryProvider = props => {
 
       const updatedHistory = history.filter(el => el._id !== id);
 
-      const { status, data, error } = await sendData(
-        'http://localhost:8080/user/update-history',
+      const { error } = await sendData(
+        `${process.env.REACT_APP_BACKEND_URL}/user/update-history`,
+
         'POST',
         updatedHistory,
         true
@@ -63,8 +63,9 @@ const HistoryProvider = props => {
     if (isHistoryReadyToUpdate) {
       isHistoryReadyToUpdate = false;
 
-      const { status, data, error } = await sendData(
-        'http://localhost:8080/user/update-history',
+      const { error } = await sendData(
+        `${process.env.REACT_APP_BACKEND_URL}/user/update-history`,
+
         'POST',
         [],
         true

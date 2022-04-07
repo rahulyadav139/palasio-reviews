@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import './Playlists.css';
 import { PlaylistCard } from '../../components';
 import { usePlaylists } from '../../hooks';

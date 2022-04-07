@@ -2,10 +2,11 @@ import './VideoCard.css';
 import { Link } from 'react-router-dom';
 import { usePlaylists, useAuth } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
+import { timeDifferenceFun } from '../../utils';
 
 const VideoCard = props => {
   const deleteFun = props.onDelete;
-  const { title, author, thumbnail, _id } = props.video;
+  const { title, author, thumbnail, _id, publishedAt } = props.video;
   const wantWatchLaterButton = props.wantWatchLaterButton;
   const { playlists, addToPlaylist, removeFromPlaylist } = usePlaylists();
   const { isAuth } = useAuth();
@@ -41,7 +42,7 @@ const VideoCard = props => {
         <div className="video-card__views">
           <p className="text-small">6K Views</p>
           <span className="text-small">|</span>
-          <p className="text-small">13 Hours ago</p>
+          <p className="text-small">{timeDifferenceFun(publishedAt)}</p>
         </div>
       </div>
       {deleteFun && (
@@ -59,11 +60,7 @@ const VideoCard = props => {
           onClick={watchLaterButtonHandler}
           className="icon small btn-right-top btn-watch-later"
         >
-          {inWatchLater ? (
-            <i class="fas fa-clock"></i>
-          ) : (
-            <i class="far fa-clock"></i>
-          )}
+          <i className={inWatchLater ? 'fas fa-clock' : 'far fa-clock'}></i>
         </button>
       )}
     </div>

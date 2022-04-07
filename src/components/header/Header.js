@@ -42,7 +42,7 @@ const Header = props => {
           <span className="brand__text">
             PALASIO
             <br />
-            TALKIES
+            REVIEWS
           </span>
         </div>
       </Link>

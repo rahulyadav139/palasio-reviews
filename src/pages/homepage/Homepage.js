@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './Homepage.css';
 import { VideoCard } from '../../components';
 import { useFetch } from '../../hooks';
-import landingPageImage from '../../assets/landing-page-image.jpg';
+import { Link } from 'react-router-dom';
 
 const Homepage = props => {
   const [videos, setVideos] = useState([]);
@@ -10,8 +10,8 @@ const Homepage = props => {
 
   useEffect(() => {
     (async () => {
-      const { data, error, status } = await getData(
-        'http://localhost:8080/videos',
+      const { data } = await getData(
+        `${process.env.REACT_APP_BACKEND_URL}/videos`,
         false
       );
 
@@ -20,13 +20,20 @@ const Homepage = props => {
   }, [getData]);
   return (
     <main className="main-homepage">
-      <div className="image-homepage">
-        <img className="img-responsive" src={landingPageImage} alt="sample" />
+      <div className="slide-container">
+        <h1>India's Most Trusted Car Reviews</h1>
+        <Link to="/watch">
+          <button className="btn error">Watch</button>
+        </Link>
       </div>
       <h1>Trending Videos</h1>
       <div className="video-cards-container">
         {videos.map(video => (
-          <VideoCard video={video} wantWatchLaterButton={true} />
+          <VideoCard
+            key={video._id}
+            video={video}
+            wantWatchLaterButton={true}
+          />
         ))}
       </div>
     </main>

@@ -14,7 +14,7 @@
   left: 50%;
   top: 50%;
   transform: translateX(-50%) translateY(-50%);
-  background: var(--white-color);
+  background: var(--invert-font-color);
   z-index: 100;
   padding: 1rem;
 }
@@ -35,10 +35,21 @@
 .playlist-modal input {
   cursor: pointer;
 }
+
+.playlist-modal input {
+  background: transparent;
+  padding: 0.5rem;
+  color: inherit;
+}
+.btn-create-playlist {
+  margin-top: 0.5rem;
+}
 .playlist-modal button {
   background: none;
   outline: none;
   border: none;
+  cursor: pointer;
+  color: inherit;
 }
 .playlist-modal li {
   display: flex;
@@ -58,6 +69,6 @@
 
 .create-new-playlist-actions input {
   border: none;
-  border-bottom: 1px solid var(--black-color);
+  border-bottom: 1px solid var(--std-font-color);
   outline: none;
 }
