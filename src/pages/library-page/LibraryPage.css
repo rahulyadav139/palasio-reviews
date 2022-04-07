@@ -1,8 +1,5 @@
 .main-library-page {
   padding: 1rem;
-  /* display: grid;
-  grid-template-columns: 2fr 8fr;
-  gap: 1rem; */
 }
 
 .video-cards-wrapper {
@@ -19,15 +16,17 @@
   gap: 1rem;
 }
 
-.category {
+.category label {
   padding: 0.5rem;
   border: 1px solid var(--black-color);
   font-size: 0.75rem;
   cursor: pointer;
 }
+.category input {
+  display: none;
+}
 
-.category:active {
-  transform: scale(0.99);
+.category input:checked + label {
   background: var(--black-color);
   color: var(--white-color);
 }
