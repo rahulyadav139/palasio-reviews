@@ -1,0 +1,22 @@
+.main-auth-page {
+  display: flex;
+  flex-direction: row;
+}
+
+.main-auth-page section {
+  padding: 2rem;
+  flex-basis: 50%;
+}
+
+.main-auth-page img {
+  object-fit: contain;
+}
+@media only screen and (max-width: 450px) {
+  .main-auth-page {
+    flex-direction: column;
+  }
+
+  .main-auth-page section:nth-child(2) {
+    display: none;
+  }
+}

@@ -1,0 +1,17 @@
+.video-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.video-card__image img {
+  aspect-ratio: 16/9;
+}
+.video-card__views {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.video-card__details {
+  padding: 0.3rem;
+}
