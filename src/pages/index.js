@@ -1,8 +1,9 @@
-export { Homepage } from './Homepage';
-export { AuthPage } from './AuthPage';
-export { LibraryPage } from './LibraryPage';
-export { SingleVideoPage } from './SingleVideoPage';
-export { Profile } from './Profile';
-export { Playlists } from './Playlists';
-export { SinglePlaylist } from './SinglePlaylist';
-export { History } from './History';
+export { Homepage } from './homepage/Homepage';
+export { AuthPage } from './auth-page/AuthPage';
+export { LibraryPage } from './library-page/LibraryPage';
+export { SingleVideoPage } from './single-video/SingleVideoPage';
+export { Profile } from './profile/Profile';
+export { Playlists } from './playlists/Playlists';
+export { SinglePlaylist } from './single-playlist/SinglePlaylist';
+export { History } from './history/History';
+export { WatchLater } from './watch-later/WatchLater';

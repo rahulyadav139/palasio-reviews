@@ -1,11 +1,10 @@
 import { Fragment } from 'react';
 import './Profile.css';
-import { Header } from '../components';
+import { Header } from '../../components';
 
 const Profile = props => {
   return (
     <Fragment>
-      <Header />
       <main className="main-profile-page">
         <div className="flex col center">
           <div className="avatar large">
