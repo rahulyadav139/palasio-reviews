@@ -1,13 +1,17 @@
 import './SinglePlaylist.css';
 import { VideoCard } from '../../components';
-import { useParams, useNavigate } from 'react-router-dom';
-import { usePlaylists } from '../../hooks';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { usePlaylists, useToast } from '../../hooks';
+import { textFormatter } from '../../utils';
 
 const SinglePlaylist = props => {
   const navigate = useNavigate();
   const params = useParams();
+  const { setToast } = useToast();
   const playlistTitle = params.playlistName;
   const { playlists, removeFromPlaylist, deletePlaylist } = usePlaylists();
+
+  const currentPlaylist = playlists.find(el => el.title === playlistTitle);
 
   const deleteFromPlaylistHandler = videoId => {
     removeFromPlaylist({
@@ -18,13 +22,20 @@ const SinglePlaylist = props => {
 
   const deletePlaylistHandler = () => {
     deletePlaylist(playlistTitle);
-    navigate('/profile');
+    navigate('/playlists');
+    setToast({
+      status: true,
+      type: 'success',
+      message: `"${textFormatter(
+        playlistTitle
+      )}" playlist deleted successfully!`,
+    });
   };
 
   return (
     <main className="main-single-playlist">
       <div className="flex space-between align-center">
-        <h1>My Playlist</h1>
+        <h1>{textFormatter(currentPlaylist.title)}</h1>
         <button
           onClick={deletePlaylistHandler}
           className="btn error rounded-edge"
@@ -32,13 +43,25 @@ const SinglePlaylist = props => {
           Delete Playlist
         </button>
       </div>
-      <div className="videos-container">
-        {playlists
-          .filter(el => el.title === playlistTitle)[0]
-          .videos.map(video => (
-            <VideoCard onDelete={deleteFromPlaylistHandler} video={video} />
+      <div className="hr-line fad"></div>
+      {currentPlaylist.videos.length !== 0 ? (
+        <div className="videos-container">
+          {currentPlaylist.videos.map(video => (
+            <VideoCard
+              key={video._id}
+              onDelete={deleteFromPlaylistHandler}
+              video={video}
+            />
           ))}
-      </div>
+        </div>
+      ) : (
+        <div className="empty-playlist-msg">
+          <p>Empty playlist!</p>
+          <Link to="/watch">
+            <button className="btn primary">Watch Now</button>
+          </Link>
+        </div>
+      )}
     </main>
   );
 };

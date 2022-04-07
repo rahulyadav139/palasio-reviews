@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
 import './Homepage.css';
+import { useState, useEffect } from 'react';
 import { VideoCard } from '../../components';
 import { useFetch } from '../../hooks';
 import { Link } from 'react-router-dom';

@@ -79,3 +79,9 @@
   cursor: pointer;
   font-size: 1rem;
 }
+
+@media only screen and (max-width: 450px) {
+  .main-single-video-page {
+    grid-template-columns: 1fr;
+  }
+}

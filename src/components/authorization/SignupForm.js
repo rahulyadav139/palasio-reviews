@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useInput, useFetch, useAuth, usePlaylists } from '../../hooks';
+import {
+  useInput,
+  useFetch,
+  useAuth,
+  usePlaylists,
+  useToast,
+} from '../../hooks';
 import { textFormatter } from '../../utils';
 import { useNavigate } from 'react-router-dom';
 import './AuthForm.css';
@@ -10,19 +16,20 @@ const SignupForm = props => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordValidity, setPasswordValidity] = useState(false);
-  const [toast, setToast] = useState(false);
+  // const [toast, setToast] = useState(false);
+  const { setToast } = useToast();
   const navigate = useNavigate();
   const { getPlaylistsData } = usePlaylists();
 
-  useEffect(() => {
-    let timer;
+  // useEffect(() => {
+  //   let timer;
 
-    if (toast) {
-      timer = setTimeout(() => setToast(null), 2000);
-    }
+  //   if (toast) {
+  //     timer = setTimeout(() => setToast(null), 2000);
+  //   }
 
-    return () => clearTimeout(timer);
-  }, [toast]);
+  //   return () => clearTimeout(timer);
+  // }, [toast]);
   const {
     value: firstName,
     setIsTouched: firstNameIsTouched,
@@ -125,7 +132,11 @@ const SignupForm = props => {
       return;
     }
     if (password !== confirmPassword) {
-      setToast("password doesn't match");
+      setToast({
+        message: "Password doesn't match!",
+        type: 'danger',
+        status: true,
+      });
       return;
     }
 
@@ -142,10 +153,20 @@ const SignupForm = props => {
       false
     );
 
-    if (error) return;
+    if (error)
+      return setToast({
+        message: 'Something went wrong!',
+        type: 'danger',
+        status: true,
+      });
 
     if (status === 409) {
-      setToast('User is already registered!');
+      setToast({
+        message: 'User is already registered!',
+        type: 'danger',
+        status: true,
+      });
+
       return;
     }
 
@@ -263,14 +284,14 @@ const SignupForm = props => {
         </span>
       </p>
 
-      {toast && (
+      {/* {toast && (
         <div class="toast danger">
           <span class="icon small white">
             <i class="fas fa-bell"></i>
           </span>
           {` ${toast}`}
         </div>
-      )}
+      )} */}
     </form>
   );
 };

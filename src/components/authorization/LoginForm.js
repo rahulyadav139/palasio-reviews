@@ -5,6 +5,8 @@ import {
   useAuth,
   usePlaylists,
   useHistory,
+  useLikedVideos,
+  useToast,
 } from '../../hooks';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -13,20 +15,22 @@ const LoginForm = props => {
   const { sendData } = useFetch();
   const { loginHandler } = useAuth();
   const { getHistory } = useHistory();
+  const { getLikedVideos } = useLikedVideos();
   const navigate = useNavigate();
   const { getPlaylistsData } = usePlaylists();
   const [showPassword, setShowPassword] = useState(false);
-  const [toast, setToast] = useState(null);
+  // const [toast, setToast] = useState(null);
+  const { setToast } = useToast();
 
-  useEffect(() => {
-    let timer;
+  // useEffect(() => {
+  //   let timer;
 
-    if (toast) {
-      timer = setTimeout(() => setToast(null), 2000);
-    }
+  //   if (toast) {
+  //     timer = setTimeout(() => setToast(null), 2000);
+  //   }
 
-    return () => clearTimeout(timer);
-  }, [toast]);
+  //   return () => clearTimeout(timer);
+  // }, [toast]);
 
   const {
     value: email,
@@ -74,14 +78,27 @@ const LoginForm = props => {
       false
     );
 
-    if (error) return;
+    if (error)
+      return setToast({
+        message: 'Something went wrong!',
+        type: 'danger',
+        status: true,
+      });
 
     if (status === 404) {
-      return setToast('User not found!');
+      return setToast({
+        message: 'User not found!',
+        type: 'danger',
+        status: true,
+      });
     }
 
     if (status === 401) {
-      return setToast('incorrect password!');
+      return setToast({
+        message: 'Incorrect password!',
+        type: 'danger',
+        status: true,
+      });
     }
 
     loginHandler({
@@ -91,8 +108,38 @@ const LoginForm = props => {
     });
     getPlaylistsData(data.playlists);
     getHistory(data.history);
+    console.log(data.likedVideos);
+    getLikedVideos(data.likedVideos);
 
-    console.log(navigate(-1));
+    navigate(-1);
+  };
+
+  const guestLoginHandler = async () => {
+    const { data, error } = await sendData(
+      `${process.env.REACT_APP_BACKEND_URL}/auth/login`,
+      'POST',
+      {
+        email: process.env.REACT_APP_GUEST_LOGIN_USERNAME,
+        password: process.env.REACT_APP_GUEST_LOGIN_PASSWORD,
+      },
+      false
+    );
+
+    if (error)
+      return setToast({
+        message: 'Something went wrong!',
+        type: 'danger',
+        status: true,
+      });
+
+    loginHandler({
+      token: data.token,
+      userId: data.userId,
+      username: data.username,
+    });
+    getPlaylistsData(data.playlists);
+    getHistory(data.history);
+    getLikedVideos(data.likedVideos);
 
     navigate(-1);
   };
@@ -140,6 +187,13 @@ const LoginForm = props => {
       <button type="submit" className="btn primary">
         Login
       </button>
+      <button
+        onClick={guestLoginHandler}
+        type="button"
+        className="btn outline primary btn-guest-login"
+      >
+        Guest Login
+      </button>
       <p className="switch__msg">
         Already a member?{' '}
         <span onClick={props.onSwitch} className="switch__method">
@@ -147,14 +201,14 @@ const LoginForm = props => {
         </span>
       </p>
 
-      {toast && (
+      {/* {toast && (
         <div class="toast danger">
           <span class="icon small white">
             <i class="fas fa-bell"></i>
           </span>
           {` ${toast}`}
         </div>
-      )}
+      )} */}
     </form>
   );
 };

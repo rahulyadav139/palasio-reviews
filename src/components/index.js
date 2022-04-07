@@ -5,3 +5,6 @@ export { VideoCard } from './video-card/VideoCard';
 export { PlaylistCard } from './playlist-card/PlaylistCard';
 export { PlaylistModal } from './playlist-modal/PlaylistModal';
 export { Loading } from './ui/Loading';
+export { Modal } from './ui/modal/Modal';
+export { CreatePlaylist } from './create-playlist/CreatePlaylist';
+export { Toast } from './ui/Toast';

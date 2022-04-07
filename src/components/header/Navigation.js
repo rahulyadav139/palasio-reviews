@@ -1,11 +1,12 @@
 import './Navigation.css';
 import { useAuth } from '../../hooks';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const Navigation = props => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') ?? 'light');
-  const { isAuth, username } = useAuth();
+  const { isAuth, logoutHandler } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     theme === 'dark'
@@ -26,6 +27,46 @@ const Navigation = props => {
   return (
     <nav>
       <ul className="list-items">
+        <li title="Explore Videos" className=" list-item">
+          <Link to="/watch">
+            <button className="btn-login btn icon medium primary text-bold">
+              <i class="fas fa-play-circle"></i>
+            </button>
+          </Link>
+        </li>
+
+        <li title="Watch Later" className=" list-item">
+          <Link to={isAuth ? '/watch-later' : '/auth'}>
+            <button className="btn-login btn icon medium primary text-bold">
+              <i className="fas fa-clock"></i>
+            </button>
+          </Link>
+        </li>
+
+        <li title="Playlists" className="list-item">
+          <Link to={isAuth ? '/playlists' : '/auth'}>
+            <button className="btn-login btn icon medium primary text-bold">
+              <i className="fas fa-list"></i>
+            </button>
+          </Link>
+        </li>
+
+        <li title="Liked Videos" className="list-item">
+          <Link to={isAuth ? '/liked-videos' : '/auth'}>
+            <button className="btn-login btn icon medium primary text-bold">
+              <i className="fas fa-thumbs-up"></i>
+            </button>
+          </Link>
+        </li>
+
+        <li title="History" className="list-item">
+          <Link to={isAuth ? '/history' : '/auth'}>
+            <button className="btn-login btn icon medium primary text-bold">
+              <i className="fas fa-history"></i>
+            </button>
+          </Link>
+        </li>
+
         <li>
           <div className="theme-toggle">
             <input
@@ -45,21 +86,16 @@ const Navigation = props => {
           </div>
         </li>
 
-        {isAuth && (
-          <Link to="/profile">
-            <li className="profile-item list-item">
-              <div className="avatar small">{username[0]}</div>
-            </li>
-          </Link>
-        )}
-
-        {!isAuth && (
-          <li className="login-item">
-            <Link to="/auth">
-              <button className="btn-login btn primary text-bold">Login</button>
-            </Link>
-          </li>
-        )}
+        <li title={isAuth ? 'Logout' : 'Login'} className="login-item">
+          <button
+            onClick={isAuth ? logoutHandler : navigate.bind(null, '/auth')}
+            className="btn-login btn icon medium primary text-bold"
+          >
+            <i
+              className={!isAuth ? 'fas fa-sign-in-alt' : 'fas fa-sign-out-alt'}
+            ></i>
+          </button>
+        </li>
       </ul>
     </nav>
   );

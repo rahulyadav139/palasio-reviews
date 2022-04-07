@@ -4,19 +4,20 @@ import {
   AuthPage,
   LibraryPage,
   SingleVideoPage,
-  Profile,
   Playlists,
   SinglePlaylist,
   History,
   WatchLater,
+  LikedVideos,
 } from './pages';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Header, Loading } from './components';
-import { useAuth, useLoading } from './hooks';
+import { Header, Loading, Toast } from './components';
+import { useAuth, useLoading, useToast } from './hooks';
 
 function App() {
   const { isAuth } = useAuth();
   const { loading } = useLoading();
+  const { toast } = useToast();
   return (
     <div className="app">
       <Header />
@@ -25,16 +26,18 @@ function App() {
         {!isAuth && <Route path="/auth" element={<AuthPage />} />}
         <Route path="/watch" element={<LibraryPage />} />
         <Route path="/watch/:videoId" element={<SingleVideoPage />} />
-        {isAuth && <Route path="/profile" element={<Profile />} />}
+
         {isAuth && <Route path="/playlists" element={<Playlists />} />}
         {isAuth && (
           <Route path="/playlist/:playlistName" element={<SinglePlaylist />} />
         )}
         {isAuth && <Route path="/history" element={<History />} />}
         {isAuth && <Route path="/watch-later" element={<WatchLater />} />}
+        {isAuth && <Route path="/liked-videos" element={<LikedVideos />} />}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       {loading && <Loading />}
+      {toast.status && <Toast />}
     </div>
   );
 }

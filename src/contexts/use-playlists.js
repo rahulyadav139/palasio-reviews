@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { useFetch } from '../hooks';
+import { useFetch, useToast } from '../hooks';
 
 const PlaylistsContext = React.createContext();
 
@@ -29,18 +29,23 @@ const playlistsReducer = (state, action) => {
 const PlaylistsProvider = props => {
   const [state, dispatch] = useReducer(playlistsReducer, []);
   const { sendData } = useFetch();
+  const { setToast } = useToast();
 
   const createNewPlaylistHandler = async playlistData => {
     if (isReadyToUpdatePlaylists) {
       isReadyToUpdatePlaylists = false;
 
       const { title } = playlistData;
-      console.log(playlistData);
+
       const hasPlaylist = state.findIndex(el => el.title === title);
 
       if (hasPlaylist >= 0) {
         isReadyToUpdatePlaylists = true;
-        return 'playlist exists with same name!';
+        return setToast({
+          status: true,
+          type: 'loading',
+          message: 'playlist exists with same name!',
+        });
       }
 
       const updatedPlaylists = [...state, playlistData];

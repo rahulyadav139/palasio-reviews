@@ -45,3 +45,15 @@
 .dark-theme .profile-item-dropdown ul li:active {
   background: var(--black-color);
 }
+.theme-toggle {
+  top: 0;
+}
+
+@media only screen and (max-width: 450px) {
+  nav {
+    margin-left: auto;
+  }
+  .list-item {
+    display: none;
+  }
+}

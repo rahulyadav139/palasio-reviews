@@ -1,12 +1,13 @@
 .playlist-card {
-  /* max-width: 10rem; */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  
 }
 .playlist-card p:first-child {
   margin-bottom: 0.2rem;
 }
 
+.playlist-card a {
+  flex-grow: 1;
+}
